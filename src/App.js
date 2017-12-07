@@ -2,13 +2,16 @@ import React from 'react'
 import { render } from 'react-dom'
 import initialState from './initial-state'
 import { createStore } from 'redux'
-import { Provider } from 'react-redux'
+import { Provider, connect } from 'react-redux'
 
-console.log(initialState)
+
 const calculateScores = (state, action) => {
   console.log('clicked the button')
-  console.log(state)
-  // switch(action.type){
+  // console.log(state)
+  switch(action.type){
+    case '': 
+      return state
+
   //   case 'CALCULATE_SCORES':
   //   console.log(state)
   //     console.log('hola')
@@ -19,7 +22,9 @@ const calculateScores = (state, action) => {
   //         {value: Math.floor(Math.random() * 6), ...die} :
   //         die
   //     })
-  //   mg UIKL,.
+    
+  default: return state
+}
   
 }
 
@@ -88,7 +93,7 @@ console.log(store.getState(), 'getState')
 
 const App = (state) => {
 
-  console.log(state)
+  console.log(state, 'kill me now')
   
   return <div style={styles.body}>
     <div style={styles.wrapper}>
@@ -128,17 +133,30 @@ const App = (state) => {
 const renderApp = () => {
   // console.log(initialState, 'initial')
   render( 
-    <Provider state={store.getState()}>
+    <Provider store={store}>
       <App 
-      styles={styles} 
-      state={store.getState()}
+      // styles={styles} 
+      // state={store.getState()}
       // calculateScores={(state)=> console.log('holy sisters')}
       />
     </Provider>
   , document.getElementById('root'))
 }
 
-store.subscribe(renderApp)
+const mapStateToProps = ({players, gameboard, diceBoard}) => ({
+  players,
+  gameboard,
+  diceBoard
+})
+
+const mapDispatchToProps = dispatch => ({
+  calculateScores: dice => dispatch(calculateScores({type: 'CALCULATE_VALUES', dice}))
+})
+
+connect(mapStateToProps, mapDispatchToProps)(App)
+
 renderApp()
+store.subscribe(renderApp)
+
 
 export default App
