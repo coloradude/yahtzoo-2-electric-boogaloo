@@ -1,4 +1,4 @@
-const state = {
+const initialState = {
 	players:[{
 		name: '',
 		scorecard: {
@@ -125,4 +125,4 @@ const state = {
 	}
 }
 
-export default state
+export default initialState

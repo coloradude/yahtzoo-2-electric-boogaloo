@@ -3,18 +3,23 @@ import { render } from 'react-dom'
 import initialState from './initial-state'
 import { createStore } from 'redux'
 
-const scoreCalculator = (state, action) => {
+const calculateScores = (state = initialState, action) => {
+  console.log('clicked the button')
   switch(action.type){
-    case 'CALCULATE_VALUES':
+    case 'CALCULATE_SCORES':
 
+      console.log('hola')
+      console.log(state)
+      const dice = state.diceBoard.dice.map(die => {
+        console.log(die)
+        return die.isActive ? 
+          {value: Math.floor(Math.random() * 6), ...die} :
+          die
+      })
   }
 }
 
-
-// const styles = {
-//   fontFamily: 'sans-serif',
-//   textAlign: 'center',
-// };
+const store = createStore(calculateScores)
 
 const styles = {
   body: {
@@ -41,7 +46,7 @@ const styles = {
     maxWidth: '50px',
     minWidth: '50px',
     height: '50px',
-    margin: '0 5px 5px 5px',
+    margin: '0 5px 0 5px',
     border: '3px #fff solid',
     cursor: 'pointer',
     padding: '10px',
@@ -59,7 +64,6 @@ const styles = {
   // display: 'flex'
 }
 
-
 const PlaySquare = ({name}) => (
   <div style={styles.playSquare}>{name}</div>
 )
@@ -68,21 +72,10 @@ const PlaySquareRow = ({children}) => (
   <div style={styles.playSquareRow}>{children}</div>
 )
 
-const DiceRoller = ({props}) => (
-  <div></div>
-)
-
-
-
-const rollDice = () => {
-
-}
-const RollDiceReduceer = (state, action) => {
-  return state
-}
-
-const App => (
-  <div style={styles.body}>
+const App = ({state}) => {
+  console.log(state, 'this is state')
+  
+  return <div style={styles.body}>
     <div style={styles.wrapper}>
       <PlaySquareRow style={styles}>
         <PlaySquare name='Ones'/>
@@ -104,27 +97,28 @@ const App => (
         <PlaySquare name='Chance' />
       </PlaySquareRow>
       <PlaySquareRow>
-        <PlaySquare onClick={rollDice} name='Roll'/>
+        <PlaySquare onClick={() => {
+          console.log('oh shit waddup')
+          calculateScores(state, {type: 'CALCULATE_SCORES'})
+        }} name='Roll'/>
       </PlaySquareRow>
     </div>
   </div>
-)
-
-
-  
-
-  // <div style={styles}>
-  //   <Hello name="CodeSandbox" />
-  //   <h2>Start editing to see some magic happen {'\u2728'}</h2>
-  // </div>
 }
 
-render(<App 
-  styles={styles} 
-  value={store.getState()
-  rollDice={()=> store.dispatch({type: 'CALCULATE_VALUES'})}
-  }/>, document.getElementById('root'))
+const renderApp = () => {
+  // console.log(initialState, 'initial')
+  render(
+    <App 
+    styles={styles} 
+    state={store.getState() ? store.getState() : initialState}
+    // calculateScores={(state)=> store.dispatch(state, {type: 'CALCULATE_SCORES'})}
+    />, document.getElementById('root')
+  )
+}
 
+store.subscribe(renderApp)
+renderApp()
 
 
 export default App;
