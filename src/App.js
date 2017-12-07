@@ -2,25 +2,24 @@ import React from 'react'
 import { render } from 'react-dom'
 import initialState from './initial-state'
 import { createStore } from 'redux'
+import { Provider } from 'react-redux'
 
-
-const calculateScores = (state = initialState, action) => {
+console.log(initialState)
+const calculateScores = (state, action) => {
   console.log('clicked the button')
-  switch(action.type){
-    case 'CALCULATE_SCORES':
-
-      console.log('hola')
-      console.log(state)
-      const dice = state.diceBoard.dice.map(die => {
-        console.log(die)
-        return die.isActive ? 
-          {value: Math.floor(Math.random() * 6), ...die} :
-          die
-      })
-    default: {
-      return state
-    } 
-  }
+  console.log(state)
+  // switch(action.type){
+  //   case 'CALCULATE_SCORES':
+  //   console.log(state)
+  //     console.log('hola')
+  //     console.log(state)
+  //     const dice = state.diceBoard.dice.map(die => {
+  //       console.log(die)
+  //       return die.isActive ? 
+  //         {value: Math.floor(Math.random() * 6), ...die} :
+  //         die
+  //     })
+  //   mg UIKL,.
   
 }
 
@@ -70,16 +69,26 @@ const styles = {
   // display: 'flex'
 }
 
-const PlaySquare = ({name}) => (
-  <div style={styles.playSquare}>{name}</div>
+const PlaySquare = ({name}) => {
+  name
+  return <div style={styles.playSquare}>{name}</div>
+}
+  
+
+
+const RollSquare = ({rollFunc}) => (
+  <div style={styles.playSquare} onClick={rollFunc}>Roll</div>
 )
 
 const PlaySquareRow = ({children}) => (
   <div style={styles.playSquareRow}>{children}</div>
 )
 
-const App = ({state}) => {
-  console.log(state, 'this is state unc')
+console.log(store.getState(), 'getState')
+
+const App = (state) => {
+
+  console.log(state)
   
   return <div style={styles.body}>
     <div style={styles.wrapper}>
@@ -103,29 +112,33 @@ const App = ({state}) => {
         <PlaySquare name='Chance' />
       </PlaySquareRow>
       <PlaySquareRow>
-        <PlaySquare onClick={() => {
-          console.log('oh shit waddup')
+        <RollSquare rollFunc={() => {
+          // console.log('oh shit waddup', state)
+          calculateScores()
           
-          calculateScores(state, {type: 'CALCULATE_SCORES'})
+          // calculateScores(state, {type: 'CALCULATE_SCORES'})
         }} name='Roll'/>
       </PlaySquareRow>
     </div>
   </div>
 }
 
+
+
 const renderApp = () => {
   // console.log(initialState, 'initial')
-  render(
-    <App 
-    styles={styles} 
-    state={store.getState()}
-    calculateScores={(state)=> console.log('holy sisters')}
-    />, document.getElementById('root')
-  )
+  render( 
+    <Provider state={store.getState()}>
+      <App 
+      styles={styles} 
+      state={store.getState()}
+      // calculateScores={(state)=> console.log('holy sisters')}
+      />
+    </Provider>
+  , document.getElementById('root'))
 }
 
 store.subscribe(renderApp)
 renderApp()
 
-
-export default App;
+export default App
