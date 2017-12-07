@@ -134,11 +134,7 @@ const renderApp = () => {
   // console.log(initialState, 'initial')
   render( 
     <Provider store={store}>
-      <App 
-      // styles={styles} 
-      // state={store.getState()}
-      // calculateScores={(state)=> console.log('holy sisters')}
-      />
+      <App />
     </Provider>
   , document.getElementById('root'))
 }
@@ -155,8 +151,8 @@ const mapDispatchToProps = dispatch => ({
 
 connect(mapStateToProps, mapDispatchToProps)(App)
 
-renderApp()
-store.subscribe(renderApp)
 
+store.subscribe(renderApp)
+renderApp()
 
 export default App
