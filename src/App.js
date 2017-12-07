@@ -3,6 +3,7 @@ import { render } from 'react-dom'
 import initialState from './initial-state'
 import { createStore } from 'redux'
 
+
 const calculateScores = (state = initialState, action) => {
   console.log('clicked the button')
   switch(action.type){
@@ -16,10 +17,15 @@ const calculateScores = (state = initialState, action) => {
           {value: Math.floor(Math.random() * 6), ...die} :
           die
       })
+    default: {
+      return state
+    } 
   }
+  
 }
 
-const store = createStore(calculateScores)
+const store = createStore(calculateScores, initialState)
+
 
 const styles = {
   body: {
@@ -73,7 +79,7 @@ const PlaySquareRow = ({children}) => (
 )
 
 const App = ({state}) => {
-  console.log(state, 'this is state')
+  console.log(state, 'this is state unc')
   
   return <div style={styles.body}>
     <div style={styles.wrapper}>
@@ -99,6 +105,7 @@ const App = ({state}) => {
       <PlaySquareRow>
         <PlaySquare onClick={() => {
           console.log('oh shit waddup')
+          
           calculateScores(state, {type: 'CALCULATE_SCORES'})
         }} name='Roll'/>
       </PlaySquareRow>
@@ -111,8 +118,8 @@ const renderApp = () => {
   render(
     <App 
     styles={styles} 
-    state={store.getState() ? store.getState() : initialState}
-    // calculateScores={(state)=> store.dispatch(state, {type: 'CALCULATE_SCORES'})}
+    state={store.getState()}
+    calculateScores={(state)=> console.log('holy sisters')}
     />, document.getElementById('root')
   )
 }

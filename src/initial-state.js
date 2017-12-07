@@ -46,7 +46,7 @@ const initialState = {
 			total: 0
 		}
 	}],
-	gameboard: {
+	gameBoard: {
 		ones: {
 			score: 1,
 			isActive: true
