@@ -45,8 +45,9 @@ const styles = {
   // display: 'flex'
 }
 
-const PlaySquare = ({name}) => {
-  return <div style={styles.playSquare}>{name}</div>
+const PlaySquare = ({name, state: {score, isActive}}) => {
+
+  return <div style={styles.playSquare}>{isActive && score ? `${name} (${score})` : name}</div>
 }
   
 const RollSquare = ({rollFunc}) => (
@@ -57,35 +58,36 @@ const PlaySquareRow = ({children}) => (
   <div style={styles.playSquareRow}>{children}</div>
 )
 
-const App = ({dice, calculateScores}) => {
+const App = ({dice, gameBoard, calculateScores}) => {
 
-  // console.log(state, 'App component')
+  console.log(gameBoard)
 
   return <div style={styles.body}>
     <div style={styles.wrapper}>
       <PlaySquareRow style={styles}>
-        <PlaySquare name='Ones'/>
-        <PlaySquare name='Twos' />
-        <PlaySquare name='Threes' />
-        <PlaySquare name='Fours' />
-        <PlaySquare name='Fives' />
-        <PlaySquare name='Sixes' />
+        <PlaySquare name='Ones' state={gameBoard.ones}/>
+        <PlaySquare name='Twos' state={gameBoard.twos}/>
+        <PlaySquare name='Threes' state={gameBoard.threes}/>
+        <PlaySquare name='Fours' state={gameBoard.fours}/>
+        <PlaySquare name='Fives' state={gameBoard.fives}/>
+        <PlaySquare name='Sixes' state={gameBoard.sixes}/>
       </PlaySquareRow>
       <PlaySquareRow style={styles}>
-        <PlaySquare name='3 of a Kind' />
-        <PlaySquare name='4 of a Kind' />
-        <PlaySquare name='Full House' />
-        <PlaySquare name='Small Straight' />
-        <PlaySquare name='Large Straight' />
-        <PlaySquare name='Yahtzoo' />
+        <PlaySquare name='3 of a Kind' state={gameBoard.threeOfAKind}/>
+        <PlaySquare name='4 of a Kind' state={gameBoard.fourOfAKind}/>
+        <PlaySquare name='Full House' state={gameBoard.fullHouse}/>
+        <PlaySquare name='Small Straight' state={gameBoard.smallStraight}/>
+        <PlaySquare name='Large Straight' state={gameBoard.largeStraight}/>
+        <PlaySquare name='Yahtzoo' state={gameBoard.yahtzee}/>
       </PlaySquareRow>
       <PlaySquareRow>
-        <PlaySquare name='Chance' />
+        <PlaySquare name='Chance' state={gameBoard.chance}/>
       </PlaySquareRow>
       <PlaySquareRow>
         <RollSquare rollFunc={() => {
+          console.log(dice, 'inside rollfunc')
           // console.log('oh shit waddup', state)
-          calculateScores(dice, calculateScores)
+          calculateScores(dice)
           
           // calculateScores(state, {type: 'CALCULATE_SCORES'})
         }} name='Roll'/>
@@ -95,9 +97,11 @@ const App = ({dice, calculateScores}) => {
 } 
 
 const mapStateToProps = (state) => {
-  console.log(state, 'wtf yo')
+
+  console.log('mapping')
   return {
-    dice: state.diceBoard.dice
+    dice: state.diceBoard.dice,
+    gameBoard: state.gameBoard
   }
 }
 
