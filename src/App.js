@@ -57,7 +57,9 @@ const PlaySquareRow = ({children}) => (
   <div style={styles.playSquareRow}>{children}</div>
 )
 
-const App = (state) => {
+const App = ({dice, calculateScores}) => {
+
+  // console.log(state, 'App component')
 
   return <div style={styles.body}>
     <div style={styles.wrapper}>
@@ -83,7 +85,7 @@ const App = (state) => {
       <PlaySquareRow>
         <RollSquare rollFunc={() => {
           // console.log('oh shit waddup', state)
-          calculateScores()
+          calculateScores(dice, calculateScores)
           
           // calculateScores(state, {type: 'CALCULATE_SCORES'})
         }} name='Roll'/>
@@ -93,16 +95,17 @@ const App = (state) => {
 } 
 
 const mapStateToProps = (state) => {
+  console.log(state, 'wtf yo')
   return {
-    dice: state.diceboard.dice
+    dice: state.diceBoard.dice
   }
 }
 
 const mapDispatchToProps = dispatch => {
-  return {calculateScores: () => dispatch({type: 'CALCULATE_VALUES', dice})}
+  return {calculateScores: (dice) => dispatch({type: 'CALCULATE_VALUES', dice})}
 }
 
 
-connect(mapStateToProps, mapDispatchToProps)(App)
+const App1 = connect(mapStateToProps, mapDispatchToProps)(App)
 
-export default App
+export default App1
