@@ -6,7 +6,7 @@ const calculateScores = (state, action) => {
         return state.diceBoard.dice.map(die => {
         //   console.log(die)
           return !die.isActive ? 
-            {value: (Math.floor(Math.random() * 6) + 1), die: die.isActive} :
+            {value: Math.ceil(Math.random() * 6), isActive: die.isActive} :
             die
         })
       
