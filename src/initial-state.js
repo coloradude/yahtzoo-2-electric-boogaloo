@@ -117,9 +117,6 @@ const initialState = {
 		},{
 			isActive: false,
 			value: 0
-		},{
-			isActive: false,
-			value: 0
 		}],
 		rollsLeft: 3
 	}
