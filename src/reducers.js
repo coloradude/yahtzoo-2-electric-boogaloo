@@ -16,7 +16,6 @@ const threeOrFourOfAKindScore = (dice, num) => {
   return finalScore
 }
 
-const 
 
 const calculateScores = (state, action) => {
 
@@ -28,11 +27,13 @@ const calculateScores = (state, action) => {
 
     const newState = {...state}
 
-      const dice = state.diceBoard.dice.map(die => {
-        return die.isReadyToRoll ? 
-          {value: (Math.ceil(Math.random() * 6)), 
-          isReadyToRoll: true} :
-          die
+      const dice = state.diceBoard.dice.map(({value, ...rest}) => {
+        return die.isReadyToRoll ? {
+                value: (Math.ceil(Math.random() * 6)),
+                ...rest
+            }
+            : die
+        
       })
 
     const ones = genericNumsScore(dice, 1))
@@ -73,9 +74,9 @@ const calculateScores = (state, action) => {
         ones: {
           score: ones,
           isActive: true
-        },
+        }
         
-        
+    }   
 
 
 
@@ -95,5 +96,5 @@ const calculateScores = (state, action) => {
 export default calculateScores
 
 const ones = (dice) => {
-    
+
 }
