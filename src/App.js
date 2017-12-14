@@ -50,15 +50,15 @@ const PlaySquare = ({name, state: {score, isActive}}) => {
   return <div style={styles.playSquare}>{isActive && score ? `${name} (${score})` : name}</div>
 }
   
-const RollSquare = ({rollFunc}) => (
-  <div style={styles.playSquare} onClick={rollFunc}>Roll</div>
+const RollSquare = ({rollFunc, rollsLeft}) => (
+  <div style={styles.playSquare} onClick={rollFunc}>{`Roll(${rollsLeft})`}</div>
 )
 
 const PlaySquareRow = ({children}) => (
   <div style={styles.playSquareRow}>{children}</div>
 )
 
-const App = ({dice, gameBoard, calculateScores}) => {
+const App = ({dice, gameBoard, calculateScores, rollsLeft}) => {
 
   console.log(gameBoard)
 
@@ -78,13 +78,15 @@ const App = ({dice, gameBoard, calculateScores}) => {
         <PlaySquare name='Full House' state={gameBoard.fullHouse}/>
         <PlaySquare name='Small Straight' state={gameBoard.smallStraight}/>
         <PlaySquare name='Large Straight' state={gameBoard.largeStraight}/>
-        <PlaySquare name='Yahtzoo' state={gameBoard.yahtzee}/>
+        <PlaySquare name='Yahtzoo' state={gameBoard.yahtzoo}/>
       </PlaySquareRow>
       <PlaySquareRow>
         <PlaySquare name='Chance' state={gameBoard.chance}/>
       </PlaySquareRow>
       <PlaySquareRow>
-        <RollSquare rollFunc={() => {
+        <RollSquare 
+        rollsLeft={rollsLeft}
+        rollFunc={() => {
           console.log(dice, 'inside rollfunc')
           // console.log('oh shit waddup', state)
           calculateScores(dice)
@@ -97,10 +99,10 @@ const App = ({dice, gameBoard, calculateScores}) => {
 } 
 
 const mapStateToProps = (state) => {
-
-  console.log('mapping')
+  console.log(state.diceBoard.rollsLeft, 'rolls left')
   return {
     dice: state.diceBoard.dice,
+    rollsLeft: state.diceBoard.rollsLeft,
     gameBoard: state.gameBoard
   }
 }

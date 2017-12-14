@@ -1,102 +1,97 @@
 const initialState = {
+	activePlayer: 0,
 	players:[{
+		isActive: true,
 		name: '',
 		scorecard: {
-			upperSection: {
-				ones: 0,
-				twos: 0,
-				threes: 0,
-				fours: 0,
-				fives: 0,
-				sixes: 0,
-			},
-			lowerSection: {
-				threeOfAKind: 0,
-				fourOfAKind: 0,
-				fullHouse: 0,
-				smallStraight: 0,
-				largeStraight: 0,
-				yahtzee: 0,
-				chance: 0,
-			},
+			ones: 0,
+			twos: 0,
+			threes: 0,
+			fours: 0,
+			fives: 0,
+			sixes: 0,
+			threeOfAKind: 0,
+			fourOfAKind: 0,
+			fullHouse: 0,
+			smallStraight: 0,
+			largeStraight: 0,
+			yahtzee: 0,
+			chance: 0,
 			bonus: false,
 			total: 0
-		}
-	},{
+			},
+		},{
+		isActive: false,
 		name: '',
 		scorecard: {
-			upperSection: {
-				ones: 0,
-				twos: 0,
-				threes: 0,
-				fours: 0,
-				fives: 0,
-				sixes: 0,
-			},
-			lowerSection: {
-				threeOfAKind: 0,
-				fourOfAKind: 0,
-				fullHouse: 0,
-				smallStraight: 0,
-				largeStraight: 0,
-				yahtzee: 0,
-				chance: 0,
-			},
+			ones: 0,
+			twos: 0,
+			threes: 0,
+			fours: 0,
+			fives: 0,
+			sixes: 0,
+			threeOfAKind: 0,
+			fourOfAKind: 0,
+			fullHouse: 0,
+			smallStraight: 0,
+			largeStraight: 0,
+			yahtzee: 0,
+			chance: 0,
 			bonus: false,
 			total: 0
 		}
 	}],
 	gameBoard: {
 		ones: {
-			score: 1,
+			score: 0,
 			isActive: true
 		},
 		twos: {
-			score: 1,
+			score: 0,
 			isActive: true
 		},
 		threes: {
-			score: 1,
+			score: 0,
 			isActive: true
 		},
 		fours: {
-			score: 1,
+			score: 0,
 			isActive: true
 		},
 		fives: {
-			score: 1,
+			score: 0,
 			isActive: true
 		},
 		sixes: {
-			score: 1,
+			score: 0,
 			isActive: true
 		},
 		threeOfAKind: {
-			score: 1,
+			score: 0,
 			isActive: true
 		},
 		fourOfAKind: {
-			score: 1,
+			score: 0,
 			isActive: true
 		},
 		fullHouse: {
-			score: 1,
+			score: 0,
 			isActive: true
 		},
 		smallStraight: {
-			score: 1,
+			score: 0,
 			isActive: true
 		},
 		largeStraight: {
-			score: 1,
+			score: 0,
 			isActive: true
 		},
-		yahtzee: {
-			score: 1,
+		yahtzoo: {
+			score: 0,
 			isActive: true
 		},
 		chance: {
-			score: 1,
+			score: 0,
 			isActive: true
 		}
 
