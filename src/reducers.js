@@ -1,163 +1,118 @@
-const genericNumsScore = (dice, num) => {
-  return dice.reduce((curr, next) => next.value === num ? curr + next.value : curr, 0)
-}
-
-const threeOrFourOfAKindScore = (dice, num) => {
-  const reduced = dice.reduce((curr, next) => {
-    curr[next.value] = curr[next.value] + 1 || 1
-    return curr
-  }, {})
-
-  let finalScore = 0
-
-  for (let item in reduced) {
-    
-    if (Number(reduced[item]) >= num) {
-      finalScore = dice.reduce((curr, next) => curr + next.value, 0)
-    }
-  }
-  return finalScore
-}
-
-const fullHouseScore = dice => {
-  const scores = dice.reduce((curr, next) => {
-    curr[next.value] = curr[next.value] + 1 || 1
-    return curr
-  }, {})
-
-  const propertyNames = Object.getOwnPropertyNames(scores)
-  return propertyNames.length === 2 && (scores[propertyNames[0]] === 3 || scores[propertyNames[1]] === 3) ? 25 : 0
-}
-
-const hasStraightScore = (dice, smallOrLarge) => {
-  // Sets score depending on being called for small straight of large straight
-  const potentialScore = smallOrLarge === 4 ? 30 : 40
-  // Sorts the dice based on value
-  const sorted = dice.sort((a, b) => a.value - b.value)
-  
- // For first 4 die, pulls out die that arent 1 smaller than next die.
-  // Pulls out last die if it isnt 1 more than previous
-  const filtered = sorted.filter((die, i) => {
-    return i < 4 ?
-      sorted[i].value + 1 === sorted[i + 1].value :
-      sorted[i].value - 1 === sorted[i - 1].value
-    }
-  )
-
- // Compares length of sorted/filtered array to expected length
-  // of array if a straight is present
-  return filtered.length >= smallOrLarge ? potentialScore : 0
-
-}
-
-
-const yahtzooScore = dice => {
-  const scores = dice.reduce((curr, next) => {
-    curr[next.value] = curr[next.value] + 1 || 1
-    return curr
-  }, {})
-   return Object.getOwnPropertyNames(scores).length === 1 ? 50 : 0
-}
-
+import {
+  genericNumsScore,
+  threeOrFourOfAKindScore,
+  fullHouseScore,
+  hasStraightScore,
+  yahtzooScore
+} from './score-evaluators/score-evaluators'
 
 const calculateScores = (state, action) => {
 
   switch(action.type){
     case 'CALCULATE_VALUES': 
 
-
-
       const newState = {...state}
-        const dice = state.diceBoard.dice.map( die => {
-          return die.isReadyToRoll ? {
-                  value: (Math.ceil(Math.random() * 6)),
-                  isReadyToRoll: true
-              }
-              : die
-          
-        })
+      const dice = state.diceBoard.dice.map( die => {
+        return die.isReadyToRoll ? {
+            value: (Math.ceil(Math.random() * 6)),
+            isReadyToRoll: true
+          }
+          : die
+        
+      })
 
       const gameBoard = {...state.gameBoard}
       const activePlayer = newState.players.filter(player => player.isActive)[0].scorecard
 
-      const ones = gameBoard.ones.isActive && !activePlayer.ones ? genericNumsScore(dice, 1) : 0
-      const twos = gameBoard.twos.isActive && !activePlayer.twos ? genericNumsScore(dice, 2) : 0
-      const threes = gameBoard.threes.isActive && !activePlayer.threes ? genericNumsScore(dice, 3) : 0
-      const fours = gameBoard.fours.isActive && !activePlayer.fours ? genericNumsScore(dice, 4) : 0
-      const fives = gameBoard.fives.isActive && !activePlayer.fives ? genericNumsScore(dice, 5) : 0
-      const sixes = gameBoard.sixes.isActive && !activePlayer.sixes ? genericNumsScore(dice, 6) : 0
-      const threeOfAKind = gameBoard.threeOfAKind.isActive && !activePlayer.threeOfAKind ? threeOrFourOfAKindScore(dice, 3) : 0
-      const fourOfAKind = gameBoard.fourOfAKind.isActive && !activePlayer.fourOfAKind ? threeOrFourOfAKindScore(dice, 4) : 0
-      const fullHouse = gameBoard.fullHouse.isActive && !activePlayer.fullHouse ? fullHouseScore(dice) : 0
-      const smallStraight = gameBoard.smallStraight.isActive && !activePlayer.smallStraight ? hasStraightScore(dice, 4) : 0
-      const largeStright = gameBoard.largeStraight.isActive && !activePlayer.largeStraight ? hasStraightScore(dice, 5) : 0
-      const yahtzoo = gameBoard.yahtzoo.isActive && !activePlayer.yahtzoo ? yahtzooScore(dice) : 0
-      const chance = gameBoard.chance.isActive && !activePlayer.chance ? dice.reduce((curr, next) => curr + next.value, 0) : 0
+      // Removed gameBoard.ones.isActive && ... from front of ternary, may need to add again
+      // There are 4 possible states for a gameBoard tile
+      // 1. Unscored
+      // 2. Scored but unavailable
+      // 3. Scored and available
+      // 4. Scratchable
+      // I need to keep isActive state so it can be determine whether an
+      //Active square is being pressed o the user is going for a scratch
 
+      const ones = !activePlayer.ones.value || !activePlayer.ones.isScratched ? genericNumsScore(dice, 1) : 0
+      const twos = !activePlayer.twos.value || !activePlayer.twos.isScratched ? genericNumsScore(dice, 2) : 0
+      const threes = !activePlayer.threes.value || !activePlayer.threes.isScratched ? genericNumsScore(dice, 3) : 0
+      const fours = !activePlayer.fours.value || !activePlayer.fours.isScratched ? genericNumsScore(dice, 4) : 0
+      const fives = !activePlayer.fives.value || !activePlayer.fives.isScratched ? genericNumsScore(dice, 5) : 0
+      const sixes = !activePlayer.sixes.value || !activePlayer.sixes.isScratched ? genericNumsScore(dice, 6) : 0
+      const threeOfAKind = !activePlayer.threeOfAKind.value || !activePlayer.threeOfAKind.isScratched ? threeOrFourOfAKindScore(dice, 3) : 0
+      const fourOfAKind = !activePlayer.fourOfAKind.value || !activePlayer.fourOfAKind.isScratched ? threeOrFourOfAKindScore(dice, 4) : 0
+      const fullHouse = !activePlayer.fullHouse.value || !activePlayer.fullHouse.isScratched ? fullHouseScore(dice) : 0
+      const smallStraight = !activePlayer.smallStraight.value || !activePlayer.smallStraight.isScratched ? hasStraightScore(dice, 4) : 0
+      const largeStright = !activePlayer.largeStraight.value || !activePlayer.largeStraight.isScratched ? hasStraightScore(dice, 5) : 0
+      const yahtzoo = !activePlayer.yahtzoo.value || !activePlayer.yahtzoo.isScratched ? yahtzooScore(dice) : 0
+      const chance = !activePlayer.chance.value || !activePlayer.chance.isScratched ? dice.reduce((curr, next) => curr + next.value, 0) : 0
 
       newState.gameBoard = {
         ones: {
           score: ones,
-          isActive: true
+          isActive: ones ? true : false
         },
         twos: {
           score: twos,
-          isActive: true
+          isActive: twos ? true : false
         },
         threes: {
           score: threes,
-          isActive: true
+          isActive: threes ? true : false
         },
         fours: {
           score: fours,
-          isActive: true
+          isActive: fours ? true : false
         },
         fives: {
           score: fives,
-          isActive: true
+          isActive: fives ? true : false
         },
         sixes: {
           score: sixes,
-          isActive: true
+          isActive: sixes ? true : false
         },
         threeOfAKind: {
           score: threeOfAKind,
-          isActive: true
+          isActive: threeOfAKind ? true : false
         },
         fourOfAKind: {
           score: fourOfAKind,
-          isActive: true
+          isActive: fourOfAKind ? true : false
         },
         fullHouse: {
           score: fullHouse,
-          isActive: true
+          isActive: fullHouse ? true : false
         },
         smallStraight: {
           score: smallStraight,
-          isActive: true
+          isActive: smallStraight ? true : false
         },
         largeStraight: {
           score: largeStright,
-          isActive: true
+          isActive: largeStright ? true : false
         },
         yahtzoo: {
           score: yahtzoo,
-          isActive: true
+          isActive: yahtzoo ? true : false
         },
         chance: {
           score: chance,
-          isActive: true
+          isActive: chance ? true : false
         }
       }
 
       newState.diceBoard.rollsLeft--
         
       newState.diceBoard.dice = dice
-        console.log(newState, 'newstate')
       return newState
+    
+    case 'ADD_SCORE':
+      console.log('adding score')
+      return state
+    
 
     default:
-      console.log('default')
       return state
   }
 }
