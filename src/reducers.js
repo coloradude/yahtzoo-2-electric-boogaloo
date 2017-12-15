@@ -8,11 +8,14 @@ import {
 
 const calculateScores = (state, action) => {
 
+  const newState = {...state}
+  const diceArray = newState.diceBoard.dice
+  const activeScorecard = newState.players.filter(player => player.isActive)[0].scorecard
+
   switch(action.type){
     case 'CALCULATE_VALUES': 
 
-      const newState = {...state}
-      const dice = state.diceBoard.dice.map( die => {
+      const dice = diceArray.map( die => {
         return die.isReadyToRoll ? {
             value: (Math.ceil(Math.random() * 6)),
             isReadyToRoll: true
@@ -20,9 +23,6 @@ const calculateScores = (state, action) => {
           : die
         
       })
-
-      const gameBoard = {...state.gameBoard}
-      const activePlayer = newState.players.filter(player => player.isActive)[0].scorecard
 
       // Removed gameBoard.ones.isActive && ... from front of ternary, may need to add again
       // There are 4 possible states for a gameBoard tile
@@ -38,19 +38,19 @@ const calculateScores = (state, action) => {
       // and if the tile hasnt been scratched by the active player. Otherwise it
       // returns 0 which deactivates the tile
 
-      const ones = !activePlayer.ones.value || activePlayer.ones.isScratched ? genericNumsScore(dice, 1) : 0
-      const twos = !activePlayer.twos.value || activePlayer.twos.isScratched ? genericNumsScore(dice, 2) : 0
-      const threes = !activePlayer.threes.value || activePlayer.threes.isScratched ? genericNumsScore(dice, 3) : 0
-      const fours = !activePlayer.fours.value || activePlayer.fours.isScratched ? genericNumsScore(dice, 4) : 0
-      const fives = !activePlayer.fives.value || activePlayer.fives.isScratched ? genericNumsScore(dice, 5) : 0
-      const sixes = !activePlayer.sixes.value || activePlayer.sixes.isScratched ? genericNumsScore(dice, 6) : 0
-      const threeOfAKind = !activePlayer.threeOfAKind.value || activePlayer.threeOfAKind.isScratched ? threeOrFourOfAKindScore(dice, 3) : 0
-      const fourOfAKind = !activePlayer.fourOfAKind.value || activePlayer.fourOfAKind.isScratched ? threeOrFourOfAKindScore(dice, 4) : 0
-      const fullHouse = !activePlayer.fullHouse.value || activePlayer.fullHouse.isScratched ? fullHouseScore(dice) : 0
-      const smallStraight = !activePlayer.smallStraight.value || activePlayer.smallStraight.isScratched ? hasStraightScore(dice, 4) : 0
-      const largeStright = !activePlayer.largeStraight.value || activePlayer.largeStraight.isScratched ? hasStraightScore(dice, 5) : 0
-      const yahtzoo = !activePlayer.yahtzoo.value || activePlayer.yahtzoo.isScratched ? yahtzooScore(dice) : 0
-      const chance = !activePlayer.chance.value || activePlayer.chance.isScratched ? dice.reduce((curr, next) => curr + next.value, 0) : 0
+      const ones = !activeScorecard.ones.value || activeScorecard.ones.isScratched ? genericNumsScore(dice, 1) : 0
+      const twos = !activeScorecard.twos.value || activeScorecard.twos.isScratched ? genericNumsScore(dice, 2) : 0
+      const threes = !activeScorecard.threes.value || activeScorecard.threes.isScratched ? genericNumsScore(dice, 3) : 0
+      const fours = !activeScorecard.fours.value || activeScorecard.fours.isScratched ? genericNumsScore(dice, 4) : 0
+      const fives = !activeScorecard.fives.value || activeScorecard.fives.isScratched ? genericNumsScore(dice, 5) : 0
+      const sixes = !activeScorecard.sixes.value || activeScorecard.sixes.isScratched ? genericNumsScore(dice, 6) : 0
+      const threeOfAKind = !activeScorecard.threeOfAKind.value || activeScorecard.threeOfAKind.isScratched ? threeOrFourOfAKindScore(dice, 3) : 0
+      const fourOfAKind = !activeScorecard.fourOfAKind.value || activeScorecard.fourOfAKind.isScratched ? threeOrFourOfAKindScore(dice, 4) : 0
+      const fullHouse = !activeScorecard.fullHouse.value || activeScorecard.fullHouse.isScratched ? fullHouseScore(dice) : 0
+      const smallStraight = !activeScorecard.smallStraight.value || activeScorecard.smallStraight.isScratched ? hasStraightScore(dice, 4) : 0
+      const largeStright = !activeScorecard.largeStraight.value || activeScorecard.largeStraight.isScratched ? hasStraightScore(dice, 5) : 0
+      const yahtzoo = !activeScorecard.yahtzoo.value || activeScorecard.yahtzoo.isScratched ? yahtzooScore(dice) : 0
+      const chance = !activeScorecard.chance.value || activeScorecard.chance.isScratched ? dice.reduce((curr, next) => curr + next.value, 0) : 0
 
       newState.gameBoard = {
         ones: {
@@ -113,10 +113,15 @@ const calculateScores = (state, action) => {
       return newState
     
     case 'ADD_SCORE':
-      console.log('adding score', action.payload.die)
-      return state
-    
+      newState.players[newState.activePlayer]
+        .scorecard[action.payload.die] = action.payload.score
+      // Need to switch to next active player and update scoreboard for current one.
+      // Probably want to limit players to 2 for now
+      // Maybe need to set scratchable to false, we will see
+      // Reset dice and scoreboard
 
+      return newState
+    
     default:
       return state
   }
