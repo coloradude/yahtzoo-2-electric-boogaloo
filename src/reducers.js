@@ -55,55 +55,55 @@ const calculateScores = (state, action) => {
       newState.gameBoard = {
         ones: {
           score: ones,
-          isActive: ones ? true : false
+          isActive: !!ones
         },
         twos: {
           score: twos,
-          isActive: twos ? true : false
+          isActive: !!twos
         },
         threes: {
           score: threes,
-          isActive: threes ? true : false
+          isActive: !!threes
         },
         fours: {
           score: fours,
-          isActive: fours ? true : false
+          isActive: !!fours
         },
         fives: {
           score: fives,
-          isActive: fives ? true : false
+          isActive: !!fives
         },
         sixes: {
           score: sixes,
-          isActive: sixes ? true : false
+          isActive: !!sixes
         },
         threeOfAKind: {
           score: threeOfAKind,
-          isActive: threeOfAKind ? true : false
+          isActive: !!threeOfAKind
         },
         fourOfAKind: {
           score: fourOfAKind,
-          isActive: fourOfAKind ? true : false
+          isActive: !!fourOfAKind
         },
         fullHouse: {
           score: fullHouse,
-          isActive: fullHouse ? true : false
+          isActive: !!fullHouse
         },
         smallStraight: {
           score: smallStraight,
-          isActive: smallStraight ? true : false
+          isActive: !!smallStraight
         },
         largeStraight: {
           score: largeStright,
-          isActive: largeStright ? true : false
+          isActive: !!largeStright
         },
         yahtzoo: {
           score: yahtzoo,
-          isActive: yahtzoo ? true : false
+          isActive: !!yahtzoo
         },
         chance: {
           score: chance,
-          isActive: chance ? true : false
+          isActive: !!chance
         }
       }
 
