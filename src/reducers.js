@@ -113,7 +113,7 @@ const calculateScores = (state, action) => {
       return newState
     
     case 'ADD_SCORE':
-      console.log('adding score', action.score)
+      console.log('adding score', action.payload.die)
       return state
     
 

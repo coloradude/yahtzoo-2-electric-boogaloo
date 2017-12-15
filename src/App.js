@@ -93,42 +93,42 @@ const App = ({
           rollsLeft={rollsLeft}
           state={gameBoard.ones} 
           score={scores.ones}
-          addScore={() => addScore(gameBoard.ones.score)}
+          addScore={() => addScore(gameBoard.ones.score, 'ones')}
         />
         <PlaySquare 
           name='Twos' 
           rollsLeft={rollsLeft}
           state={gameBoard.twos} 
           score={scores.twos}
-          addScore={() => addScore(gameBoard.twos.score)}
+          addScore={() => addScore(gameBoard.twos.score, 'twos')}
         />
         <PlaySquare 
           name='Threes' 
           rollsLeft={rollsLeft}
           state={gameBoard.threes} 
           score={scores.threes}
-          addScore={() => addScore(gameBoard.threes.score)}
+          addScore={() => addScore(gameBoard.threes.score, 'threes')}
         />
         <PlaySquare 
           name='Fours' 
           rollsLeft={rollsLeft}
           state={gameBoard.fours} 
           score={scores.fours}
-          addScore={() => addScore(gameBoard.fours.score)}
+          addScore={() => addScore(gameBoard.fours.score, 'fours')}
         />
         <PlaySquare 
           name='Fives' 
           rollsLeft={rollsLeft}
           state={gameBoard.fives} 
           score={scores.fives}
-          addScore={() => addScore(gameBoard.fives.score)}
+          addScore={() => addScore(gameBoard.fives.score, 'fives')}
         />
         <PlaySquare 
           name='Sixes' 
           rollsLeft={rollsLeft}
           state={gameBoard.sixes} 
           score={scores.sixes}
-          addScore={() => addScore(gameBoard.sixes.score)}
+          addScore={() => addScore(gameBoard.sixes.score, 'sixes')}
         />
       </PlaySquareRow>
       <PlaySquareRow style={styles}>
@@ -137,42 +137,42 @@ const App = ({
           rollsLeft={rollsLeft}
           state={gameBoard.threeOfAKind} 
           score={scores.threeOfAKind}
-          addScore={() => addScore(gameBoard.threeOfAKind.score)}
+          addScore={() => addScore(gameBoard.threeOfAKind.score, 'threeOfAKind')}
         />
         <PlaySquare 
           name='4 of a Kind' 
           rollsLeft={rollsLeft}
           state={gameBoard.fourOfAKind} 
           score={scores.fourOfAKind}
-          addScore={() => addScore(gameBoard.fourOfAKind.score)}
+          addScore={() => addScore(gameBoard.fourOfAKind.score, 'fourOfAKind')}
         />
         <PlaySquare 
           name='Full House' 
           rollsLeft={rollsLeft}
           state={gameBoard.fullHouse} 
           score={scores.fullHouse}
-          addScore={() => addScore(gameBoard.fullHouse.score)}
+          addScore={() => addScore(gameBoard.fullHouse.score, 'fullHouse')}
         />
         <PlaySquare 
           name='Small Straight' 
           rollsLeft={rollsLeft}
           state={gameBoard.smallStraight} 
           score={scores.smallStraight}
-          addScore={() => addScore(gameBoard.smallStraight.score)}
+          addScore={() => addScore(gameBoard.smallStraight.score, 'smallStraight')}
         />
         <PlaySquare 
           name='Large Straight' 
           rollsLeft={rollsLeft}
           state={gameBoard.largeStraight} 
           score={scores.largeStraight}
-          addScore={() => addScore(gameBoard.largeStraight.score)}
+          addScore={() => addScore(gameBoard.largeStraight.score, 'largeStraight')}
         />
         <PlaySquare 
           name='Yahtzoo' 
           rollsLeft={rollsLeft}
           state={gameBoard.yahtzoo} 
           score={scores.yahtzoo}
-          addScore={() => addScore(gameBoard.yahtzoo.score)}
+          addScore={() => addScore(gameBoard.yahtzoo.score, 'yahtzoo')}
         />
       </PlaySquareRow>
       <PlaySquareRow>
@@ -181,7 +181,7 @@ const App = ({
           rollsLeft={rollsLeft}
           state={gameBoard.chance} 
           score={scores.chance}
-          addScore={() => addScore(gameBoard.chance.score)}
+          addScore={() => addScore(gameBoard.chance.score, 'chance')}
         />
       </PlaySquareRow>
       <PlaySquareRow>
@@ -210,8 +210,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    calculateScores: (dice) => dispatch({type: 'CALCULATE_VALUES', dice}),
-    addScore: (score) => dispatch({type: 'ADD_SCORE', score})
+    calculateScores: (dice) => dispatch({type: 'CALCULATE_VALUES'}),
+    addScore: (score, die) => dispatch({type: 'ADD_SCORE', payload: {score, die}})
   }
 }
 
