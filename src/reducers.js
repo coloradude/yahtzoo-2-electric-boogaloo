@@ -33,19 +33,24 @@ const calculateScores = (state, action) => {
       // I need to keep isActive state so it can be determine whether an
       //Active square is being pressed o the user is going for a scratch
 
-      const ones = !activePlayer.ones.value || !activePlayer.ones.isScratched ? genericNumsScore(dice, 1) : 0
-      const twos = !activePlayer.twos.value || !activePlayer.twos.isScratched ? genericNumsScore(dice, 2) : 0
-      const threes = !activePlayer.threes.value || !activePlayer.threes.isScratched ? genericNumsScore(dice, 3) : 0
-      const fours = !activePlayer.fours.value || !activePlayer.fours.isScratched ? genericNumsScore(dice, 4) : 0
-      const fives = !activePlayer.fives.value || !activePlayer.fives.isScratched ? genericNumsScore(dice, 5) : 0
-      const sixes = !activePlayer.sixes.value || !activePlayer.sixes.isScratched ? genericNumsScore(dice, 6) : 0
-      const threeOfAKind = !activePlayer.threeOfAKind.value || !activePlayer.threeOfAKind.isScratched ? threeOrFourOfAKindScore(dice, 3) : 0
-      const fourOfAKind = !activePlayer.fourOfAKind.value || !activePlayer.fourOfAKind.isScratched ? threeOrFourOfAKindScore(dice, 4) : 0
-      const fullHouse = !activePlayer.fullHouse.value || !activePlayer.fullHouse.isScratched ? fullHouseScore(dice) : 0
-      const smallStraight = !activePlayer.smallStraight.value || !activePlayer.smallStraight.isScratched ? hasStraightScore(dice, 4) : 0
-      const largeStright = !activePlayer.largeStraight.value || !activePlayer.largeStraight.isScratched ? hasStraightScore(dice, 5) : 0
-      const yahtzoo = !activePlayer.yahtzoo.value || !activePlayer.yahtzoo.isScratched ? yahtzooScore(dice) : 0
-      const chance = !activePlayer.chance.value || !activePlayer.chance.isScratched ? dice.reduce((curr, next) => curr + next.value, 0) : 0
+
+      // This chunk gives a score if there is an available score based on the dice
+      // and if the tile hasnt been scratched by the active player. Otherwise it
+      // returns 0 which deactivates the tile
+
+      const ones = !activePlayer.ones.value || activePlayer.ones.isScratched ? genericNumsScore(dice, 1) : 0
+      const twos = !activePlayer.twos.value || activePlayer.twos.isScratched ? genericNumsScore(dice, 2) : 0
+      const threes = !activePlayer.threes.value || activePlayer.threes.isScratched ? genericNumsScore(dice, 3) : 0
+      const fours = !activePlayer.fours.value || activePlayer.fours.isScratched ? genericNumsScore(dice, 4) : 0
+      const fives = !activePlayer.fives.value || activePlayer.fives.isScratched ? genericNumsScore(dice, 5) : 0
+      const sixes = !activePlayer.sixes.value || activePlayer.sixes.isScratched ? genericNumsScore(dice, 6) : 0
+      const threeOfAKind = !activePlayer.threeOfAKind.value || activePlayer.threeOfAKind.isScratched ? threeOrFourOfAKindScore(dice, 3) : 0
+      const fourOfAKind = !activePlayer.fourOfAKind.value || activePlayer.fourOfAKind.isScratched ? threeOrFourOfAKindScore(dice, 4) : 0
+      const fullHouse = !activePlayer.fullHouse.value || activePlayer.fullHouse.isScratched ? fullHouseScore(dice) : 0
+      const smallStraight = !activePlayer.smallStraight.value || activePlayer.smallStraight.isScratched ? hasStraightScore(dice, 4) : 0
+      const largeStright = !activePlayer.largeStraight.value || activePlayer.largeStraight.isScratched ? hasStraightScore(dice, 5) : 0
+      const yahtzoo = !activePlayer.yahtzoo.value || activePlayer.yahtzoo.isScratched ? yahtzooScore(dice) : 0
+      const chance = !activePlayer.chance.value || activePlayer.chance.isScratched ? dice.reduce((curr, next) => curr + next.value, 0) : 0
 
       newState.gameBoard = {
         ones: {
@@ -108,7 +113,7 @@ const calculateScores = (state, action) => {
       return newState
     
     case 'ADD_SCORE':
-      console.log('adding score')
+      console.log('adding score', action.score)
       return state
     
 

@@ -47,14 +47,29 @@ const styles = {
 // When you click addScore it should switch add score to current players 
 // scoreboard and switch to next player
 
-const PlaySquare = ({name, state: {score, isActive }, rollsLeft, addScore}) => {
-
-  return <div style={styles.playSquare} onClick={rollsLeft > 0 ? addScore : () => {}}>{isActive && score ? `${name} (${score})` : name}</div>
+const PlaySquare = ({
+  name, 
+  state: {
+    score, 
+    isActive 
+  }, 
+  rollsLeft, 
+  addScore
+}) => {
+  return <div 
+    style={styles.playSquare} 
+    onClick={rollsLeft > 0 ? addScore : () => {}}>{isActive && score ? `${name} (${score})` : name}
+  </div>
 }
   
-const RollSquare = ({rollFunc, rollsLeft}) => {
-  console.log(rollsLeft, 'rollsleft')
-  return <div style={styles.playSquare} onClick={rollsLeft > 0 ? rollFunc : () => {}}>{`Roll(${rollsLeft})`}</div>
+const RollSquare = ({
+  rollFunc, 
+  rollsLeft
+}) => {
+  return <div 
+    style={styles.playSquare} 
+    onClick={rollsLeft > 0 ? rollFunc : () => {}}>{`Roll(${rollsLeft})`}
+  </div>
 }
 
 const PlaySquareRow = ({children}) => (
@@ -70,92 +85,103 @@ const App = ({
   scores
 }) => {
 
-  console.log(gameBoard)
-
   return <div style={styles.body}>
     <div style={styles.wrapper}>
       <PlaySquareRow style={styles}>
         <PlaySquare 
           name='Ones' 
+          rollsLeft={rollsLeft}
           state={gameBoard.ones} 
           score={scores.ones}
-          addScore={() => addScore(gameBoard.ones)}
+          addScore={() => addScore(gameBoard.ones.score)}
         />
         <PlaySquare 
           name='Twos' 
+          rollsLeft={rollsLeft}
           state={gameBoard.twos} 
           score={scores.twos}
-          addScore={() => addScore(gameBoard.twos)}
+          addScore={() => addScore(gameBoard.twos.score)}
         />
         <PlaySquare 
           name='Threes' 
+          rollsLeft={rollsLeft}
           state={gameBoard.threes} 
           score={scores.threes}
-          addScore={() => addScore(gameBoard.threes)}
+          addScore={() => addScore(gameBoard.threes.score)}
         />
         <PlaySquare 
           name='Fours' 
+          rollsLeft={rollsLeft}
           state={gameBoard.fours} 
           score={scores.fours}
-          addScore={() => addScore(gameBoard.fours)}
+          addScore={() => addScore(gameBoard.fours.score)}
         />
         <PlaySquare 
           name='Fives' 
+          rollsLeft={rollsLeft}
           state={gameBoard.fives} 
           score={scores.fives}
-          addScore={() => addScore(gameBoard.fives)}
+          addScore={() => addScore(gameBoard.fives.score)}
         />
         <PlaySquare 
           name='Sixes' 
+          rollsLeft={rollsLeft}
           state={gameBoard.sixes} 
           score={scores.sixes}
-          addScore={() => addScore(gameBoard.sixes)}
+          addScore={() => addScore(gameBoard.sixes.score)}
         />
       </PlaySquareRow>
       <PlaySquareRow style={styles}>
         <PlaySquare 
           name='3 of a Kind' 
+          rollsLeft={rollsLeft}
           state={gameBoard.threeOfAKind} 
           score={scores.threeOfAKind}
-          addScore={() => addScore(gameBoard.threeOfAKind)}
+          addScore={() => addScore(gameBoard.threeOfAKind.score)}
         />
         <PlaySquare 
           name='4 of a Kind' 
+          rollsLeft={rollsLeft}
           state={gameBoard.fourOfAKind} 
           score={scores.fourOfAKind}
-          addScore={() => addScore(gameBoard.fourOfAKind)}
+          addScore={() => addScore(gameBoard.fourOfAKind.score)}
         />
         <PlaySquare 
           name='Full House' 
+          rollsLeft={rollsLeft}
           state={gameBoard.fullHouse} 
           score={scores.fullHouse}
-          addScore={() => addScore(gameBoard.fullHouse)}
+          addScore={() => addScore(gameBoard.fullHouse.score)}
         />
         <PlaySquare 
           name='Small Straight' 
+          rollsLeft={rollsLeft}
           state={gameBoard.smallStraight} 
           score={scores.smallStraight}
-          addScore={() => addScore(gameBoard.smallStraight)}
+          addScore={() => addScore(gameBoard.smallStraight.score)}
         />
         <PlaySquare 
           name='Large Straight' 
+          rollsLeft={rollsLeft}
           state={gameBoard.largeStraight} 
           score={scores.largeStraight}
-          addScore={() => addScore(gameBoard.largeStraight)}
+          addScore={() => addScore(gameBoard.largeStraight.score)}
         />
         <PlaySquare 
           name='Yahtzoo' 
+          rollsLeft={rollsLeft}
           state={gameBoard.yahtzoo} 
           score={scores.yahtzoo}
-          addScore={() => addScore(gameBoard.yahtzoo)}
+          addScore={() => addScore(gameBoard.yahtzoo.score)}
         />
       </PlaySquareRow>
       <PlaySquareRow>
         <PlaySquare 
           name='Chance' 
+          rollsLeft={rollsLeft}
           state={gameBoard.chance} 
           score={scores.chance}
-          addScore={() => addScore(gameBoard.chance)}
+          addScore={() => addScore(gameBoard.chance.score)}
         />
       </PlaySquareRow>
       <PlaySquareRow>
@@ -174,7 +200,6 @@ const App = ({
 } 
 
 const mapStateToProps = (state) => {
-  console.log(state.diceBoard.rollsLeft, 'rolls left')
   return {
     dice: state.diceBoard.dice,
     rollsLeft: state.diceBoard.rollsLeft,
