@@ -88,6 +88,7 @@ const App = ({
   return <div style={styles.body}>
     <div style={styles.wrapper}>
       <PlaySquareRow style={styles}>
+      {/*  this needs to be a map */}
         <PlaySquare 
           name='Ones' 
           rollsLeft={rollsLeft}

@@ -6,7 +6,12 @@ import {
   yahtzooScore
 } from './score-evaluators/score-evaluators'
 
+import initialState from './initial-state'
+
+
 const calculateScores = (state, action) => {
+
+  console.log(initialState.diceBoard)
 
   const newState = {...state}
   const diceArray = newState.diceBoard.dice
@@ -51,6 +56,10 @@ const calculateScores = (state, action) => {
       const largeStright = !activeScorecard.largeStraight.value || activeScorecard.largeStraight.isScratched ? hasStraightScore(dice, 5) : 0
       const yahtzoo = !activeScorecard.yahtzoo.value || activeScorecard.yahtzoo.isScratched ? yahtzooScore(dice) : 0
       const chance = !activeScorecard.chance.value || activeScorecard.chance.isScratched ? dice.reduce((curr, next) => curr + next.value, 0) : 0
+
+      // The isActive property is only true if the die has a potential
+      // score, hasn't been scratched yet, and hasnt been added to the
+      // players score yet
 
       newState.gameBoard = {
         ones: {
@@ -113,12 +122,20 @@ const calculateScores = (state, action) => {
       return newState
     
     case 'ADD_SCORE':
-      newState.players[newState.activePlayer]
-        .scorecard[action.payload.die] = action.payload.score
+      
       // Need to switch to next active player and update scoreboard for current one.
       // Probably want to limit players to 2 for now
       // Maybe need to set scratchable to false, we will see
       // Reset dice and scoreboard
+
+      // This only allows for 2 players. Easy to extend this to more in the future
+      newState.players[newState.activePlayer]
+        .scorecard[action.payload.die] = action.payload.score
+
+      newState.activePlayer = newState.activePlayer === 0 ? 1 : 0
+      newState.gameBoard = initialState.gameBoard
+      newState.diceBoard = initialState.diceBoard
+      newState.diceBoard.rollsLeft = 3
 
       return newState
     
