@@ -133,6 +133,7 @@ const calculateScores = (state, action) => {
         .scorecard[action.payload.die] = action.payload.score
 
       newState.activePlayer = newState.activePlayer === 0 ? 1 : 0
+      
       newState.gameBoard = initialState.gameBoard
       newState.diceBoard = initialState.diceBoard
       newState.diceBoard.rollsLeft = 3

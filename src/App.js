@@ -58,7 +58,8 @@ const PlaySquare = ({
 }) => {
   return <div 
     style={styles.playSquare} 
-    onClick={rollsLeft > 0 ? addScore : () => {}}>{isActive && score ? `${name} (${score})` : name}
+    onClick={rollsLeft >= 0 && isActive ? addScore : () => {}}>
+    {isActive && score ? `${name} (${score})` : name}
   </div>
 }
   
