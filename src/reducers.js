@@ -42,23 +42,54 @@ const calculateScores = (state, action) => {
       // This chunk gives a score if there is an available score based the active 
       // players scorecard and if the tile hasnt been scratched by the active player. 
       // Otherwise it returns 0 which deactivates the tile
-      const ones = !activeScorecard.ones.value || activeScorecard.ones.isScratched ? genericNumsScore(dice, 1) : 0
-      const twos = !activeScorecard.twos.value || activeScorecard.twos.isScratched ? genericNumsScore(dice, 2) : 0
-      const threes = !activeScorecard.threes.value || activeScorecard.threes.isScratched ? genericNumsScore(dice, 3) : 0
-      const fours = !activeScorecard.fours.value || activeScorecard.fours.isScratched ? genericNumsScore(dice, 4) : 0
-      const fives = !activeScorecard.fives.value || activeScorecard.fives.isScratched ? genericNumsScore(dice, 5) : 0
-      const sixes = !activeScorecard.sixes.value || activeScorecard.sixes.isScratched ? genericNumsScore(dice, 6) : 0
-      const threeOfAKind = !activeScorecard.threeOfAKind.value || activeScorecard.threeOfAKind.isScratched ? threeOrFourOfAKindScore(dice, 3) : 0
-      const fourOfAKind = !activeScorecard.fourOfAKind.value || activeScorecard.fourOfAKind.isScratched ? threeOrFourOfAKindScore(dice, 4) : 0
-      const fullHouse = !activeScorecard.fullHouse.value || activeScorecard.fullHouse.isScratched ? fullHouseScore(dice) : 0
-      const smallStraight = !activeScorecard.smallStraight.value || activeScorecard.smallStraight.isScratched ? hasStraightScore(dice, 4) : 0
-      const largeStright = !activeScorecard.largeStraight.value || activeScorecard.largeStraight.isScratched ? hasStraightScore(dice, 5) : 0
-      const yahtzoo = !activeScorecard.yahtzoo.value || activeScorecard.yahtzoo.isScratched ? yahtzooScore(dice) : 0
-      const chance = !activeScorecard.chance.value || activeScorecard.chance.isScratched ? dice.reduce((curr, next) => curr + next.value, 0) : 0
+
+      // If they arent scratched but have a score they are active
+      // If they have no score && are not scratched they are active
+      // if they have no score or have already been scored they are inactive
+
+      // Might want to flip isScratched. Kind of confusing.
+
+
+      // The problem with this system is it cant deal with a sqaure where you 
+      // would want to scratch something that doesnt yet have a score
+
+      // If I want to use a function like this I need to pass in the dice to 
+      // generate a score
+
+      // Pass an object down
+      const buildScore = (dice, potentialVar, isScratched, currentScore, scoreCardScore, func,) => {
+        if (isScratched || scoreCardScore){
+          return 0
+        } else if (!isScratched && currentScore) {
+          // This wont work need curent score to pass in to function
+          return func(dice, potentialVar)
+        } else {
+          return -1
+        }
+      }
+
+      // I guess this means I need a quadranary in the view template to handle
+      // all three possibilities
+
+      const ones = !activeScorecard.ones.isScratched ? genericNumsScore(dice, 1) : 0
+      const twos = !activeScorecard.twos.isScratched ? genericNumsScore(dice, 2) : 0
+      const threes = !activeScorecard.threes.isScratched ? genericNumsScore(dice, 3) : 0
+      const fours = !activeScorecard.fours.isScratched ? genericNumsScore(dice, 4) : 0
+      const fives = !activeScorecard.fives.isScratched ? genericNumsScore(dice, 5) : 0
+      const sixes = !activeScorecard.sixes.isScratched ? genericNumsScore(dice, 6) : 0
+      const threeOfAKind = !activeScorecard.threeOfAKind.isScratched ? threeOrFourOfAKindScore(dice, 3) : 0
+      const fourOfAKind = !activeScorecard.fourOfAKind.isScratched ? threeOrFourOfAKindScore(dice, 4) : 0
+      const fullHouse = !activeScorecard.fullHouse.isScratched ? fullHouseScore(dice) : 0
+      const smallStraight = !activeScorecard.smallStraight.isScratched ? hasStraightScore(dice, 4) : 0
+      const largeStright = !activeScorecard.largeStraight.isScratched ? hasStraightScore(dice, 5) : 0
+      const yahtzoo = !activeScorecard.yahtzoo.isScratched ? yahtzooScore(dice) : 0
+      const chance = !activeScorecard.chance.isScratched ? dice.reduce((curr, next) => curr + next.value, 0) : 0
 
       // The isActive property is only true if the die has a potential
       // score, hasn't been scratched yet, and hasnt been added to the
       // players score yet
+
+      // Need another property to show that it has no score but is scratchable???
 
       newState.gameBoard = {
         ones: {
@@ -121,11 +152,6 @@ const calculateScores = (state, action) => {
       return newState
     
     case 'ADD_SCORE':
-      
-      // Need to switch to next active player and update scoreboard for current one.
-      // Probably want to limit players to 2 for now
-      // Maybe need to set scratchable to false, we will see
-      // Reset dice and scoreboard
 
       // This only allows for 2 players. Easy to extend this to more in the future
       newState.players[newState.activePlayer]
@@ -136,8 +162,10 @@ const calculateScores = (state, action) => {
 
       newState.activePlayer = newState.activePlayer === 0 ? 1 : 0
       
+      // These reset the game pieces to default state
       newState.gameBoard = initialState.gameBoard
       newState.diceBoard = initialState.diceBoard
+      // Where is this getting modified requiring an explicit declaration?
       newState.diceBoard.rollsLeft = 3
 
       return newState

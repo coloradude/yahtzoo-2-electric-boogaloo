@@ -33,6 +33,21 @@ const styles = {
     borderRadius: '3px'
   },
 
+  inactiveSquare: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    maxWidth: '50px',
+    minWidth: '50px',
+    height: '50px',
+    margin: '0 5px 0 5px',
+    border: '3px #fff solid',
+    cursor: 'not-allowed',
+    padding: '10px',
+    borderRadius: '3px',
+    opacity: .65
+  },
+
   chance: {
     display: 'flex',
     justifyContent: 'center',
@@ -44,8 +59,7 @@ const styles = {
   // display: 'flex'
 }
 
-// When you click addScore it should switch add score to current players 
-// scoreboard and switch to next player
+// Need to disable scores that have been scratched but can still show value for now
 
 const PlaySquare = ({
   name, 
@@ -57,7 +71,7 @@ const PlaySquare = ({
   addScore
 }) => {
   return <div 
-    style={styles.playSquare} 
+    style={isActive && rollsLeft < 3 ? styles.playSquare: styles.inactiveSquare} 
     onClick={rollsLeft >= 0 && isActive ? addScore : () => {}}>
     {isActive && score ? `${name} (${score})` : name}
   </div>
