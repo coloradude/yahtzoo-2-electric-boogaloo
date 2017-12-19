@@ -4,7 +4,7 @@ const initialState = {
 	activePlayer: 0,
 	players:[{
 		isActive: true,
-		name: '',
+		name: 'One',
 		scorecard: {
 			ones: {
 				value: 0,
@@ -63,7 +63,7 @@ const initialState = {
 			},
 		},{
 		isActive: false,
-		name: '',
+		name: 'Two',
 		scorecard: {
 			ones: {
 				value: 0,

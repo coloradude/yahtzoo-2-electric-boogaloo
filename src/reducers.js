@@ -11,11 +11,12 @@ import initialState from './initial-state'
 
 const calculateScores = (state, action) => {
 
-  console.log(initialState.diceBoard)
-
   const newState = {...state}
   const diceArray = newState.diceBoard.dice
-  const activeScorecard = newState.players.filter(player => player.isActive)[0].scorecard
+
+  const activeScorecard = newState.players[newState.activePlayer].scorecard
+  console.log(activeScorecard, 'active scorebard')
+  
 
   switch(action.type){
     case 'CALCULATE_VALUES': 
@@ -26,7 +27,6 @@ const calculateScores = (state, action) => {
             isReadyToRoll: true
           }
           : die
-        
       })
 
       // Removed gameBoard.ones.isActive && ... from front of ternary, may need to add again
@@ -39,10 +39,9 @@ const calculateScores = (state, action) => {
       //Active square is being pressed o the user is going for a scratch
 
 
-      // This chunk gives a score if there is an available score based on the dice
-      // and if the tile hasnt been scratched by the active player. Otherwise it
-      // returns 0 which deactivates the tile
-
+      // This chunk gives a score if there is an available score based the active 
+      // players scorecard and if the tile hasnt been scratched by the active player. 
+      // Otherwise it returns 0 which deactivates the tile
       const ones = !activeScorecard.ones.value || activeScorecard.ones.isScratched ? genericNumsScore(dice, 1) : 0
       const twos = !activeScorecard.twos.value || activeScorecard.twos.isScratched ? genericNumsScore(dice, 2) : 0
       const threes = !activeScorecard.threes.value || activeScorecard.threes.isScratched ? genericNumsScore(dice, 3) : 0
@@ -117,8 +116,8 @@ const calculateScores = (state, action) => {
       }
 
       newState.diceBoard.rollsLeft--
-        
       newState.diceBoard.dice = dice
+      
       return newState
     
     case 'ADD_SCORE':
@@ -130,7 +129,10 @@ const calculateScores = (state, action) => {
 
       // This only allows for 2 players. Easy to extend this to more in the future
       newState.players[newState.activePlayer]
-        .scorecard[action.payload.die] = action.payload.score
+        .scorecard[action.payload.die] = {
+          value: action.payload.score,
+          isScratched: false
+        }
 
       newState.activePlayer = newState.activePlayer === 0 ? 1 : 0
       
