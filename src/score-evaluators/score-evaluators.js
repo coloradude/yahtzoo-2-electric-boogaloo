@@ -58,3 +58,7 @@ export const yahtzooScore = dice => {
   }, {})
    return Object.getOwnPropertyNames(scores).length === 1 ? 50 : 0
 }
+
+export const chanceScore = dice => {
+    return dice.reduce((curr, next) => curr + next.value, 0)
+}

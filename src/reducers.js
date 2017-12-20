@@ -3,6 +3,7 @@ import {
   threeOrFourOfAKindScore,
   fullHouseScore,
   hasStraightScore,
+  chanceScore,
   yahtzooScore
 } from './score-evaluators/score-evaluators'
 
@@ -49,47 +50,131 @@ const calculateScores = (state, action) => {
 
       // Might want to flip isScratched. Kind of confusing.
 
-
-      // The problem with this system is it cant deal with a sqaure where you 
-      // would want to scratch something that doesnt yet have a score
-
-      // If I want to use a function like this I need to pass in the dice to 
-      // generate a score
-
       // Pass an object down
-      const buildScore = (dice, potentialVar, isScratched, currentScore, scoreCardScore, func,) => {
-        if (isScratched || scoreCardScore){
+      // Handle decisions on the view level
+      const buildScore = ({
+        scoreCardItem: {
+          isScratched, 
+          value
+        }, 
+        params: {
+          dice, 
+          num
+        },
+        scoreFunc
+      }) => {
+        const currentScore = scoreFunc(dice, num)
+        if (isScratched || value){
           return 0
         } else if (!isScratched && currentScore) {
-          // This wont work need curent score to pass in to function
-          return func(dice, potentialVar)
+          return currentScore
         } else {
           return -1
         }
       }
 
-      // I guess this means I need a quadranary in the view template to handle
-      // all three possibilities
 
-      const ones = !activeScorecard.ones.isScratched ? genericNumsScore(dice, 1) : 0
-      const twos = !activeScorecard.twos.isScratched ? genericNumsScore(dice, 2) : 0
-      const threes = !activeScorecard.threes.isScratched ? genericNumsScore(dice, 3) : 0
-      const fours = !activeScorecard.fours.isScratched ? genericNumsScore(dice, 4) : 0
-      const fives = !activeScorecard.fives.isScratched ? genericNumsScore(dice, 5) : 0
-      const sixes = !activeScorecard.sixes.isScratched ? genericNumsScore(dice, 6) : 0
-      const threeOfAKind = !activeScorecard.threeOfAKind.isScratched ? threeOrFourOfAKindScore(dice, 3) : 0
-      const fourOfAKind = !activeScorecard.fourOfAKind.isScratched ? threeOrFourOfAKindScore(dice, 4) : 0
-      const fullHouse = !activeScorecard.fullHouse.isScratched ? fullHouseScore(dice) : 0
-      const smallStraight = !activeScorecard.smallStraight.isScratched ? hasStraightScore(dice, 4) : 0
-      const largeStright = !activeScorecard.largeStraight.isScratched ? hasStraightScore(dice, 5) : 0
-      const yahtzoo = !activeScorecard.yahtzoo.isScratched ? yahtzooScore(dice) : 0
-      const chance = !activeScorecard.chance.isScratched ? dice.reduce((curr, next) => curr + next.value, 0) : 0
-
-      // The isActive property is only true if the die has a potential
-      // score, hasn't been scratched yet, and hasnt been added to the
-      // players score yet
-
-      // Need another property to show that it has no score but is scratchable???
+      const ones = buildScore({
+        scoreCardItem: activeScorecard.ones, 
+        params: {
+          dice,
+          num: 1
+        },
+        scoreFunc: genericNumsScore
+      })
+      const twos = buildScore({
+        scoreCardItem: activeScorecard.twos, 
+        params: {
+          dice,
+          num: 2
+        },
+        scoreFunc: genericNumsScore
+      })
+      const threes = buildScore({
+        scoreCardItem: activeScorecard.threes, 
+        params: {
+          dice,
+          num: 3
+        },
+        scoreFunc: genericNumsScore
+      })
+      const fours = buildScore({
+        scoreCardItem: activeScorecard.fours, 
+        params: {
+          dice,
+          num: 4
+        },
+        scoreFunc: genericNumsScore
+      })
+      const fives = buildScore({
+        scoreCardItem: activeScorecard.fives, 
+        params: {
+          dice,
+          num: 5
+        },
+        scoreFunc: genericNumsScore
+      })
+      const sixes = buildScore({
+        scoreCardItem: activeScorecard.sixes, 
+        params: {
+          dice,
+          num: 6
+        },
+        scoreFunc: genericNumsScore
+      })
+      const threeOfAKind = buildScore({
+        scoreCardItem: activeScorecard.threeOfAKind, 
+        params: {
+          dice,
+          num: 3
+        },
+        scoreFunc: threeOrFourOfAKindScore
+      })
+      const fourOfAKind = buildScore({
+        scoreCardItem: activeScorecard.fourOfAKind, 
+        params: {
+          dice,
+          num: 4
+        },
+        scoreFunc: threeOrFourOfAKindScore
+      })
+      const fullHouse = buildScore({
+        scoreCardItem: activeScorecard.fullHouse, 
+        params: {
+          dice
+        },
+        scoreFunc: fullHouseScore
+      })
+      const smallStraight = buildScore({
+        scoreCardItem: activeScorecard.smallStraight, 
+        params: {
+          dice,
+          num: 4
+        },
+        scoreFunc: hasStraightScore
+      })
+      const largeStraight = buildScore({
+        scoreCardItem: activeScorecard.largeStraight, 
+        params: {
+          dice,
+          num: 5
+        },
+        scoreFunc: hasStraightScore
+      })
+      const chance = buildScore({
+        scoreCardItem: activeScorecard.chance, 
+        params: {
+          dice
+        },
+        scoreFunc: chanceScore
+      })
+      const yahtzoo = buildScore({
+        scoreCardItem: activeScorecard.yahtzoo, 
+        params: {
+          dice
+        },
+        scoreFunc: yahtzooScore
+      })
 
       newState.gameBoard = {
         ones: {
@@ -133,8 +218,8 @@ const calculateScores = (state, action) => {
           isActive: !!smallStraight
         },
         largeStraight: {
-          score: largeStright,
-          isActive: !!largeStright
+          score: largeStraight,
+          isActive: !!largeStraight
         },
         yahtzoo: {
           score: yahtzoo,
@@ -154,12 +239,20 @@ const calculateScores = (state, action) => {
     case 'ADD_SCORE':
 
       // This only allows for 2 players. Easy to extend this to more in the future
-      newState.players[newState.activePlayer]
+      if (action.payload.score === -1){
+        newState.players[newState.activePlayer]
+        .scorecard[action.payload.die] = {
+          value: 0,
+          isScratched: true
+        }
+      } else {
+        newState.players[newState.activePlayer]
         .scorecard[action.payload.die] = {
           value: action.payload.score,
           isScratched: false
         }
-
+      }
+      
       newState.activePlayer = newState.activePlayer === 0 ? 1 : 0
       
       // These reset the game pieces to default state
