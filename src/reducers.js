@@ -73,6 +73,9 @@ const calculateScores = (state, action) => {
         }
       }
 
+    
+    // All of this needs to be changed to arrays
+
 
       const ones = buildScore({
         scoreCardItem: activeScorecard.ones, 
@@ -232,13 +235,21 @@ const calculateScores = (state, action) => {
       }
 
       newState.diceBoard.rollsLeft--
+
+
+      // Possible fix for weird dice behavior
+      // newState.diceBoard.rollsLeft === 
+      // newState.diceBoard.rollsLeft > 0 ? 
+      //   newState.diceBoard.rollsLeft-- : 
+      //   newState.diceBoard.rollsLeft++
+
+
       newState.diceBoard.dice = dice
       
       return newState
     
     case 'ADD_SCORE':
 
-      // This only allows for 2 players. Easy to extend this to more in the future
       if (action.payload.score === -1){
         newState.players[newState.activePlayer]
         .scorecard[action.payload.die] = {
@@ -251,8 +262,9 @@ const calculateScores = (state, action) => {
           value: action.payload.score,
           isScratched: false
         }
-      }
       
+      }
+      // This only allows for 2 players. Easy to extend this to more in the future
       newState.activePlayer = newState.activePlayer === 0 ? 1 : 0
       
       // These reset the game pieces to default state

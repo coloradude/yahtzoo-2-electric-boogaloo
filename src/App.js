@@ -72,7 +72,8 @@ const PlaySquare = ({
 }) => {
   return <div 
     style={isActive && rollsLeft < 3 ? styles.playSquare: styles.inactiveSquare} 
-    onClick={rollsLeft >= 0 && isActive ? addScore : () => {}}>
+    onClick={rollsLeft >= 0 && isActive ? addScore : () => {}}
+  >
     {isActive && score && score !== -1 ? `${name} (${score})` : name}
   </div>
 }
@@ -99,7 +100,8 @@ const App = ({
   addScore,
   scores
 }) => {
-
+  // Drop the decision on scratchable score into component level logic
+  // by passing seperate functions depending on state (addScore)
   return <div style={styles.body}>
     <div style={styles.wrapper}>
       <PlaySquareRow style={styles}>
