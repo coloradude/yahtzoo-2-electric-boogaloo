@@ -84,7 +84,7 @@ const RollSquare = ({
 }) => {
   return <div 
     style={styles.playSquare} 
-    onClick={rollsLeft > 0 ? rollFunc : () => {}}>{`Roll(${rollsLeft})`}
+    onClick={rollsLeft > 0 ? rollFunc : null}>{rollsLeft > 0 ? `Roll(${rollsLeft})` : 'Scratch or Score'}
   </div>
 }
 
