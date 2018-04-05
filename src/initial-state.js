@@ -4,120 +4,137 @@ const initialState = {
         isActive: true,
         name: 'One',
         scorecard: {
-            ones: {
-                value: 0,
-                isScratched: false
+            topCard: {
+                ones: {
+                    value: 0,
+                    isScratched: false
+                },
+                twos: {
+                    value: 0,
+                    isScratched: false
+                },
+                threes: {
+                    value: 0,
+                    isScratched: false
+                },
+                fours: {
+                    value: 0,
+                    isScratched: false
+                },
+                fives: {
+                    value: 0,
+                    isScratched: false
+                },
+                sixes: {
+                    value: 0,
+                    isScratched: false
+                }
             },
-            twos: {
-                value: 0,
-                isScratched: false
+
+            bottomCard: {
+
+                threeOfAKind: {
+                    value: 0,
+                    isScratched: false
+                },
+                fourOfAKind: {
+                    value: 0,
+                    isScratched: false
+                },
+                fullHouse: {
+                    value: 0,
+                    isScratched: false
+                },
+                smallStraight: {
+                    value: 0,
+                    isScratched: false
+                },
+                largeStraight: {
+                    value: 0,
+                    isScratched: false
+                },
+                chance: {
+                    value: 0,
+                    isScratched: false
+                },
+                yahtzoo: {
+                    value: 0,
+                    isScratched: false
+                }
             },
-            threes: {
-                value: 0,
-                isScratched: false
-            },
-            fours: {
-                value: 0,
-                isScratched: false
-            },
-            fives: {
-                value: 0,
-                isScratched: false
-            },
-            sixes: {
-                value: 0,
-                isScratched: false
-            },
-            threeOfAKind: {
-                value: 0,
-                isScratched: false
-            },
-            fourOfAKind: {
-                value: 0,
-                isScratched: false
-            },
-            fullHouse: {
-                value: 0,
-                isScratched: false
-            },
-            smallStraight: {
-                value: 0,
-                isScratched: false
-            },
-            largeStraight: {
-                value: 0,
-                isScratched: false
-            },
-            chance: {
-                value: 0,
-                isScratched: false
-            },
-            yahtzoo: {
-                value: 0,
-                isScratched: false
-            },
-            bonus: false,
-            total: 0
-            },
+            
+                bonus: false,
+                total: 0
+            }
         },{
         isActive: false,
         name: 'Two',
         scorecard: {
-            ones: {
-                value: 0,
-                isScratched: false
+            topCard: {
+                ones: {
+                    value: 0,
+                    isScratched: false
+                },
+                twos: {
+                    value: 0,
+                    isScratched: false
+                },
+                threes: {
+                    value: 0,
+                    isScratched: false
+                },
+                fours: {
+                    value: 0,
+                    isScratched: false
+                },
+                fives: {
+                    value: 0,
+                    isScratched: false
+                },
+                sixes: {
+                    value: 0,
+                    isScratched: false
+                }
             },
-            twos: {
-                value: 0,
-                isScratched: false
+
+            bottomCard: {
+
+                threeOfAKind: {
+                    value: 0,
+                    isScratched: false
+                },
+                fourOfAKind: {
+                    value: 0,
+                    isScratched: false
+                },
+                fullHouse: {
+                    value: 0,
+                    isScratched: false
+                },
+                smallStraight: {
+                    value: 0,
+                    isScratched: false
+                },
+                largeStraight: {
+                    value: 0,
+                    isScratched: false
+                },
+                chance: {
+                    value: 0,
+                    isScratched: false
+                },
+                yahtzoo: {
+                    value: 0,
+                    isScratched: false
+                }
             },
-            threes: {
-                value: 0,
-                isScratched: false
-            },
-            fours: {
-                value: 0,
-                isScratched: false
-            },
-            fives: {
-                value: 0,
-                isScratched: false
-            },
-            sixes: {
-                value: 0,
-                isScratched: false
-            },
-            threeOfAKind: {
-                value: 0,
-                isScratched: false
-            },
-            fourOfAKind: {
-                value: 0,
-                isScratched: false
-            },
-            fullHouse: {
-                value: 0,
-                isScratched: false
-            },
-            smallStraight: {
-                value: 0,
-                isScratched: false
-            },
-            largeStraight: {
-                value: 0,
-                isScratched: false
-            },
-            chance: {
-                value: 0,
-                isScratched: false
-            },
-            yahtzoo: {
-                value: 0,
-                isScratched: false
-            },
+
             bonus: false,
             total: 0
+        
+
         }
+        
     }],
     gameBoard: {
         ones: {

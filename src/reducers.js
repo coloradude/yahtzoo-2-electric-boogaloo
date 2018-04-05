@@ -15,8 +15,9 @@ const calculateScores = (state, action) => {
   const newState = {...state}
   const diceArray = newState.diceBoard.dice
 
-  const activeScorecard = newState.players[newState.activePlayer].scorecard
-  console.log(activeScorecard, 'active scorebard')
+  const activeScorecardTop = newState.players[newState.activePlayer].scorecard.topCard
+  const activeScorecardBottom = newState.players[newState.activePlayer].scorecard.bottomCard
+  console.log(activeScorecardTop, 'activeScorecardTop')
   
 
   switch(action.type){
@@ -78,7 +79,7 @@ const calculateScores = (state, action) => {
 
 
       const ones = buildScore({
-        scoreCardItem: activeScorecard.ones, 
+        scoreCardItem: activeScorecardTop.ones, 
         params: {
           dice,
           num: 1
@@ -86,7 +87,7 @@ const calculateScores = (state, action) => {
         scoreFunc: genericNumsScore
       })
       const twos = buildScore({
-        scoreCardItem: activeScorecard.twos, 
+        scoreCardItem: activeScorecardTop.twos, 
         params: {
           dice,
           num: 2
@@ -94,7 +95,7 @@ const calculateScores = (state, action) => {
         scoreFunc: genericNumsScore
       })
       const threes = buildScore({
-        scoreCardItem: activeScorecard.threes, 
+        scoreCardItem: activeScorecardTop.threes, 
         params: {
           dice,
           num: 3
@@ -102,7 +103,7 @@ const calculateScores = (state, action) => {
         scoreFunc: genericNumsScore
       })
       const fours = buildScore({
-        scoreCardItem: activeScorecard.fours, 
+        scoreCardItem: activeScorecardTop.fours, 
         params: {
           dice,
           num: 4
@@ -110,7 +111,7 @@ const calculateScores = (state, action) => {
         scoreFunc: genericNumsScore
       })
       const fives = buildScore({
-        scoreCardItem: activeScorecard.fives, 
+        scoreCardItem: activeScorecardTop.fives, 
         params: {
           dice,
           num: 5
@@ -118,7 +119,7 @@ const calculateScores = (state, action) => {
         scoreFunc: genericNumsScore
       })
       const sixes = buildScore({
-        scoreCardItem: activeScorecard.sixes, 
+        scoreCardItem: activeScorecardTop.sixes, 
         params: {
           dice,
           num: 6
@@ -126,7 +127,7 @@ const calculateScores = (state, action) => {
         scoreFunc: genericNumsScore
       })
       const threeOfAKind = buildScore({
-        scoreCardItem: activeScorecard.threeOfAKind, 
+        scoreCardItem: activeScorecardBottom.threeOfAKind, 
         params: {
           dice,
           num: 3
@@ -134,7 +135,7 @@ const calculateScores = (state, action) => {
         scoreFunc: threeOrFourOfAKindScore
       })
       const fourOfAKind = buildScore({
-        scoreCardItem: activeScorecard.fourOfAKind, 
+        scoreCardItem: activeScorecardBottom.fourOfAKind, 
         params: {
           dice,
           num: 4
@@ -142,14 +143,14 @@ const calculateScores = (state, action) => {
         scoreFunc: threeOrFourOfAKindScore
       })
       const fullHouse = buildScore({
-        scoreCardItem: activeScorecard.fullHouse, 
+        scoreCardItem: activeScorecardBottom.fullHouse, 
         params: {
           dice
         },
         scoreFunc: fullHouseScore
       })
       const smallStraight = buildScore({
-        scoreCardItem: activeScorecard.smallStraight, 
+        scoreCardItem: activeScorecardBottom.smallStraight, 
         params: {
           dice,
           num: 4
@@ -157,7 +158,7 @@ const calculateScores = (state, action) => {
         scoreFunc: hasStraightScore
       })
       const largeStraight = buildScore({
-        scoreCardItem: activeScorecard.largeStraight, 
+        scoreCardItem: activeScorecardBottom.largeStraight, 
         params: {
           dice,
           num: 5
@@ -165,14 +166,14 @@ const calculateScores = (state, action) => {
         scoreFunc: hasStraightScore
       })
       const chance = buildScore({
-        scoreCardItem: activeScorecard.chance, 
+        scoreCardItem: activeScorecardBottom.chance, 
         params: {
           dice
         },
         scoreFunc: chanceScore
       })
       const yahtzoo = buildScore({
-        scoreCardItem: activeScorecard.yahtzoo, 
+        scoreCardItem: activeScorecardBottom.yahtzoo, 
         params: {
           dice
         },
@@ -250,6 +251,10 @@ const calculateScores = (state, action) => {
     
     case 'ADD_SCORE':
 
+    // Need to account for top and bottom card here
+    // Pass in top card or bottom card as payload?
+    // Shows why redux favors flatter data structures
+
       if (action.payload.score === -1){
         newState.players[newState.activePlayer]
         .scorecard[action.payload.die] = {
@@ -257,13 +262,51 @@ const calculateScores = (state, action) => {
           isScratched: true
         }
       } else {
-        newState.players[newState.activePlayer]
-        .scorecard[action.payload.die] = {
-          value: action.payload.score,
-          isScratched: false
+
+        const topCardToBeUpdated = newState.players[newState.activePlayer].scorecard.topCard
+        const bottomCardToBeUpdated = newState.players[newState.activePlayer].scorecard.bottomCard
+
+        const topItemToBeUpdated = topCardToBeUpdated[action.payload.die] //? topCardToBeUpdated.topCard[action.payload.die] : null
+        const bottomItemToBeUpdated = bottomCardToBeUpdated[action.payload.die] //? bottomCardToBeUpdated.bottomCard[action.payload.die] : null
+        
+        console.log(topCardToBeUpdated, 'topcard')
+
+        if (topItemToBeUpdated){
+          topCardToBeUpdated[action.payload.die] = {
+            value: action.payload.score,
+            isScratched: false
+          }
+        } else {
+          bottomCardToBeUpdated[action.payload.die] = {
+            value: action.payload.score,
+            isScratched: false
+          }
         }
+
+        //Need to calcutate total score -- Must seperate top from bottom and calculate seperately
+        
+        // console.log(topCard, 'topCard')
+
+        let topTotal = 0
+        for (let item in topCardToBeUpdated) {
+          topTotal += topCardToBeUpdated[item].value
+        }
+
+
+        // Gives top card bonus of 63 if total score is more than 35
+        if (topTotal >= 63 ) topTotal += 35
+  
+        let bottomTotal = 0
+        for (let item in bottomCardToBeUpdated) {
+          bottomTotal += bottomCardToBeUpdated[item].value
+        }
+  
+        newState.players[newState.activePlayer]
+        .scorecard.total = topTotal + bottomTotal
+  
       
       }
+
       // This only allows for 2 players. Easy to extend this to more in the future
       newState.activePlayer = newState.activePlayer === 0 ? 1 : 0
       
