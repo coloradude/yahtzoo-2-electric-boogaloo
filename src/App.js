@@ -53,120 +53,124 @@ const App = ({
   // by passing seperate functions depending on state (addScore)
   console.log(score1, 'total')
   return <div style={styles.body}>
-    <div style={styles.playerScores}>
-      <div >{name1 + ' ' + score1}</div>
-      <div >{name2 + ' ' + score2}</div>
-    </div>
-    <div style={styles.wrapper}>
-      <PlaySquareRow style={styles}>
-      {/*  this needs to be a map */}
-        <PlaySquare 
-          name='Ones' 
-          rollsLeft={rollsLeft}
-          state={gameBoard.ones} 
-          score={topCardScores.ones}
-          addScore={() => addScore(gameBoard.ones.score, 'ones')}
-        />
-        <PlaySquare 
-          name='Twos' 
-          rollsLeft={rollsLeft}
-          state={gameBoard.twos} 
-          score={topCardScores.twos}
-          addScore={() => addScore(gameBoard.twos.score, 'twos')}
-        />
-        <PlaySquare 
-          name='Threes' 
-          rollsLeft={rollsLeft}
-          state={gameBoard.threes} 
-          score={topCardScores.threes}
-          addScore={() => addScore(gameBoard.threes.score, 'threes')}
-        />
-        <PlaySquare 
-          name='Fours' 
-          rollsLeft={rollsLeft}
-          state={gameBoard.fours} 
-          score={topCardScores.fours}
-          addScore={() => addScore(gameBoard.fours.score, 'fours')}
-        />
-        <PlaySquare 
-          name='Fives' 
-          rollsLeft={rollsLeft}
-          state={gameBoard.fives} 
-          score={topCardScores.fives}
-          addScore={() => addScore(gameBoard.fives.score, 'fives')}
-        />
-        <PlaySquare 
-          name='Sixes' 
-          rollsLeft={rollsLeft}
-          state={gameBoard.sixes} 
-          score={topCardScores.sixes}
-          addScore={() => addScore(gameBoard.sixes.score, 'sixes')}
-        />
-      </PlaySquareRow>
-      <PlaySquareRow style={styles}>
-        <PlaySquare 
-          name='3 of a Kind' 
-          rollsLeft={rollsLeft}
-          state={gameBoard.threeOfAKind} 
-          score={bottomCardScores.threeOfAKind}
-          addScore={() => addScore(gameBoard.threeOfAKind.score, 'threeOfAKind')}
-        />
-        <PlaySquare 
-          name='4 of a Kind' 
-          rollsLeft={rollsLeft}
-          state={gameBoard.fourOfAKind} 
-          score={bottomCardScores.fourOfAKind}
-          addScore={() => addScore(gameBoard.fourOfAKind.score, 'fourOfAKind')}
-        />
-        <PlaySquare 
-          name='Full House' 
-          rollsLeft={rollsLeft}
-          state={gameBoard.fullHouse} 
-          score={bottomCardScores.fullHouse}
-          addScore={() => addScore(gameBoard.fullHouse.score, 'fullHouse')}
-        />
-        <PlaySquare 
-          name='Small Straight' 
-          rollsLeft={rollsLeft}
-          state={gameBoard.smallStraight} 
-          score={bottomCardScores.smallStraight}
-          addScore={() => addScore(gameBoard.smallStraight.score, 'smallStraight')}
-        />
-        <PlaySquare 
-          name='Large Straight' 
-          rollsLeft={rollsLeft}
-          state={gameBoard.largeStraight} 
-          score={bottomCardScores.largeStraight}
-          addScore={() => addScore(gameBoard.largeStraight.score, 'largeStraight')}
-        />
-        <PlaySquare 
-          name='Yahtzoo' 
-          rollsLeft={rollsLeft}
-          state={gameBoard.yahtzoo} 
-          score={bottomCardScores.yahtzoo}
-          addScore={() => addScore(gameBoard.yahtzoo.score, 'yahtzoo')}
-        />
-      </PlaySquareRow>
-      <PlaySquareRow>
-        <PlaySquare 
-          name='Chance' 
-          rollsLeft={rollsLeft}
-          state={gameBoard.chance} 
-          score={bottomCardScores.chance}
-          addScore={() => addScore(gameBoard.chance.score, 'chance')}
-        />
-      </PlaySquareRow>
-      <PlaySquareRow>
-        <RollSquare 
-        rollsLeft={rollsLeft}
-        rollFunc={() => {
-          console.log(dice, 'inside rollfunc')
-          // console.log('oh shit waddup', state)
-          calculateScores(dice)
-          
-          // calculateScores(state, {type: 'CALCULATE_SCORES'})
-        }} name='Roll'/>
-      </PlaySquareRow>
+    <div style={styles.boardWrapper}>
+      <div style={styles.playSquaresWrapper}>
+        <div>
+          <PlaySquareRow style={styles}>
+          {/*  this needs to be a map */}
+            <PlaySquare 
+              name='Ones' 
+              rollsLeft={rollsLeft}
+              state={gameBoard.ones} 
+              score={topCardScores.ones}
+              addScore={() => addScore(gameBoard.ones.score, 'ones')}
+            />
+            <PlaySquare 
+              name='Twos' 
+              rollsLeft={rollsLeft}
+              state={gameBoard.twos} 
+              score={topCardScores.twos}
+              addScore={() => addScore(gameBoard.twos.score, 'twos')}
+            />
+            <PlaySquare 
+              name='Threes' 
+              rollsLeft={rollsLeft}
+              state={gameBoard.threes} 
+              score={topCardScores.threes}
+              addScore={() => addScore(gameBoard.threes.score, 'threes')}
+            />
+            <PlaySquare 
+              name='Fours' 
+              rollsLeft={rollsLeft}
+              state={gameBoard.fours} 
+              score={topCardScores.fours}
+              addScore={() => addScore(gameBoard.fours.score, 'fours')}
+            />
+            <PlaySquare 
+              name='Fives' 
+              rollsLeft={rollsLeft}
+              state={gameBoard.fives} 
+              score={topCardScores.fives}
+              addScore={() => addScore(gameBoard.fives.score, 'fives')}
+            />
+            <PlaySquare 
+              name='Sixes' 
+              rollsLeft={rollsLeft}
+              state={gameBoard.sixes} 
+              score={topCardScores.sixes}
+              addScore={() => addScore(gameBoard.sixes.score, 'sixes')}
+            />
+          </PlaySquareRow>
+          <PlaySquareRow style={styles}>
+            <PlaySquare 
+              name='3 of a Kind' 
+              rollsLeft={rollsLeft}
+              state={gameBoard.threeOfAKind} 
+              score={bottomCardScores.threeOfAKind}
+              addScore={() => addScore(gameBoard.threeOfAKind.score, 'threeOfAKind')}
+            />
+            <PlaySquare 
+              name='4 of a Kind' 
+              rollsLeft={rollsLeft}
+              state={gameBoard.fourOfAKind} 
+              score={bottomCardScores.fourOfAKind}
+              addScore={() => addScore(gameBoard.fourOfAKind.score, 'fourOfAKind')}
+            />
+            <PlaySquare 
+              name='Full House' 
+              rollsLeft={rollsLeft}
+              state={gameBoard.fullHouse} 
+              score={bottomCardScores.fullHouse}
+              addScore={() => addScore(gameBoard.fullHouse.score, 'fullHouse')}
+            />
+            <PlaySquare 
+              name='Small Straight' 
+              rollsLeft={rollsLeft}
+              state={gameBoard.smallStraight} 
+              score={bottomCardScores.smallStraight}
+              addScore={() => addScore(gameBoard.smallStraight.score, 'smallStraight')}
+            />
+            <PlaySquare 
+              name='Large Straight' 
+              rollsLeft={rollsLeft}
+              state={gameBoard.largeStraight} 
+              score={bottomCardScores.largeStraight}
+              addScore={() => addScore(gameBoard.largeStraight.score, 'largeStraight')}
+            />
+            <PlaySquare 
+              name='Yahtzoo' 
+              rollsLeft={rollsLeft}
+              state={gameBoard.yahtzoo} 
+              score={bottomCardScores.yahtzoo}
+              addScore={() => addScore(gameBoard.yahtzoo.score, 'yahtzoo')}
+            />
+          </PlaySquareRow>
+          <PlaySquareRow>
+            <PlaySquare 
+              name='Chance' 
+              rollsLeft={rollsLeft}
+              state={gameBoard.chance} 
+              score={bottomCardScores.chance}
+              addScore={() => addScore(gameBoard.chance.score, 'chance')}
+            />
+          </PlaySquareRow>
+          <PlaySquareRow>
+            <RollSquare 
+            rollsLeft={rollsLeft}
+            rollFunc={() => {
+              console.log(dice, 'inside rollfunc')
+              // console.log('oh shit waddup', state)
+              calculateScores(dice)
+              
+              // calculateScores(state, {type: 'CALCULATE_SCORES'})
+            }} name='Roll'/>
+          </PlaySquareRow>
+        </div>
+      </div>
+      <div style={styles.playerScores}>
+        <div >{name1 + ' ' + score1}</div>
+        <div >{name2 + ' ' + score2}</div>
+      </div>
     </div>
   </div>
 } 

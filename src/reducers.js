@@ -249,23 +249,32 @@ const calculateScores = (state, action) => {
     // First block checks to see if player is scratching the particular tile,
     // if not it adds the score to the correct player and updates the scorecard
 
+      const topCardToBeUpdated = newState.players[newState.activePlayer].scorecard.topCard
+      const bottomCardToBeUpdated = newState.players[newState.activePlayer].scorecard.bottomCard
+
+      const topItemToBeUpdated = topCardToBeUpdated[action.payload.die] 
+      const bottomItemToBeUpdated = bottomCardToBeUpdated[action.payload.die] 
+
       if (action.payload.score === -1){
-        newState.players[newState.activePlayer]
-        .scorecard[action.payload.die] = {
-          value: 0,
-          isScratched: true
+        if (topItemToBeUpdated){
+          topCardToBeUpdated[action.payload.die] = {
+            value: 0,
+            isScratched: true
+          }
+        } else {
+          bottomCardToBeUpdated[action.payload.die] = {
+            value: 0,
+            isScratched: true
+          }
         }
+
       } else {
 
         // This section determines whether the score in question belongs to the top card
         // or the bottom card by checking for a matching key and applies the score to the 
         // correct card accordingly then calculates the new total score
 
-        const topCardToBeUpdated = newState.players[newState.activePlayer].scorecard.topCard
-        const bottomCardToBeUpdated = newState.players[newState.activePlayer].scorecard.bottomCard
-
-        const topItemToBeUpdated = topCardToBeUpdated[action.payload.die] 
-        const bottomItemToBeUpdated = bottomCardToBeUpdated[action.payload.die] 
+        
 
         if (topItemToBeUpdated){
           topCardToBeUpdated[action.payload.die] = {

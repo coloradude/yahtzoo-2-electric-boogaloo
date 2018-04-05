@@ -6,6 +6,17 @@ const styles = {
         boxSizing: 'border-box',
         backgroundColor: '#d03c28'
     },
+
+    boardWrapper: {
+        display: 'flex'
+    },
+
+    playSquaresWrapper: {
+        display: 'flex',
+        justifyContent: 'center',
+        width: '50%'
+    },
+
     playSquareRow: {
         display: 'flex',
         fontFamily: 'sans-serif',
@@ -16,6 +27,7 @@ const styles = {
         color: '#fff',
 
     },
+
     playSquare: {
         display: 'flex',
         justifyContent: 'center',
@@ -50,6 +62,12 @@ const styles = {
         justifyContent: 'center',
         alignItems: 'center',
         width: '100%'
+    },
+    
+    playerScores: {
+        display: 'flex',
+        justifyContent: 'center',
+        width: '50%'
     }
 }
 
