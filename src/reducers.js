@@ -36,7 +36,7 @@ const calculateScores = (state, action) => {
       // 3. Scored and available
       // 4. Scratchable
       // I need to keep isActive state so it can be determine whether an
-      //Active square is being pressed o the user is going for a scratch
+      // Active square is being pressed o the user is going for a scratch
 
 
       // This chunk gives a score if there is an available score based the active 
@@ -51,6 +51,7 @@ const calculateScores = (state, action) => {
 
       // Pass an object down
       // Handle decisions on the view level
+
       const buildScore = ({
         scoreCardItem: {
           isScratched, 
@@ -71,10 +72,8 @@ const calculateScores = (state, action) => {
           return -1
         }
       }
-
     
-    // All of this needs to be changed to arrays
-
+    // All of this needs to be changed to iteration and/or spun out into its own module
 
       const ones = buildScore({
         scoreCardItem: activeScorecardTop.ones, 
@@ -235,13 +234,11 @@ const calculateScores = (state, action) => {
 
       newState.diceBoard.rollsLeft--
 
-
       // Possible fix for weird dice behavior
       // newState.diceBoard.rollsLeft === 
       // newState.diceBoard.rollsLeft > 0 ? 
       //   newState.diceBoard.rollsLeft-- : 
       //   newState.diceBoard.rollsLeft++
-
 
       newState.diceBoard.dice = dice
       
@@ -249,8 +246,8 @@ const calculateScores = (state, action) => {
     
     case 'ADD_SCORE':
 
-    // First block checks to see if player is scratching the particular tile
-    // If not it adds the score to the correct player and updates the scorecard
+    // First block checks to see if player is scratching the particular tile,
+    // if not it adds the score to the correct player and updates the scorecard
 
       if (action.payload.score === -1){
         newState.players[newState.activePlayer]
@@ -260,9 +257,9 @@ const calculateScores = (state, action) => {
         }
       } else {
 
-        // This section determines wether the score in question belongs to the top card
-        // or the bottom card and applies the score the the correct card accordingly
-        // then calculates the new total score
+        // This section determines whether the score in question belongs to the top card
+        // or the bottom card by checking for a matching key and applies the score to the 
+        // correct card accordingly then calculates the new total score
 
         const topCardToBeUpdated = newState.players[newState.activePlayer].scorecard.topCard
         const bottomCardToBeUpdated = newState.players[newState.activePlayer].scorecard.bottomCard
