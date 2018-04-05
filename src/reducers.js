@@ -17,8 +17,6 @@ const calculateScores = (state, action) => {
 
   const activeScorecardTop = newState.players[newState.activePlayer].scorecard.topCard
   const activeScorecardBottom = newState.players[newState.activePlayer].scorecard.bottomCard
-  console.log(activeScorecardTop, 'activeScorecardTop')
-  
 
   switch(action.type){
     case 'CALCULATE_VALUES': 
@@ -251,9 +249,8 @@ const calculateScores = (state, action) => {
     
     case 'ADD_SCORE':
 
-    // Need to account for top and bottom card here
-    // Pass in top card or bottom card as payload?
-    // Shows why redux favors flatter data structures
+    // First block checks to see if player is scratching the particular tile
+    // If not it adds the score to the correct player and updates the scorecard
 
       if (action.payload.score === -1){
         newState.players[newState.activePlayer]
@@ -263,13 +260,15 @@ const calculateScores = (state, action) => {
         }
       } else {
 
+        // This section determines wether the score in question belongs to the top card
+        // or the bottom card and applies the score the the correct card accordingly
+        // then calculates the new total score
+
         const topCardToBeUpdated = newState.players[newState.activePlayer].scorecard.topCard
         const bottomCardToBeUpdated = newState.players[newState.activePlayer].scorecard.bottomCard
 
-        const topItemToBeUpdated = topCardToBeUpdated[action.payload.die] //? topCardToBeUpdated.topCard[action.payload.die] : null
-        const bottomItemToBeUpdated = bottomCardToBeUpdated[action.payload.die] //? bottomCardToBeUpdated.bottomCard[action.payload.die] : null
-        
-        console.log(topCardToBeUpdated, 'topcard')
+        const topItemToBeUpdated = topCardToBeUpdated[action.payload.die] 
+        const bottomItemToBeUpdated = bottomCardToBeUpdated[action.payload.die] 
 
         if (topItemToBeUpdated){
           topCardToBeUpdated[action.payload.die] = {
@@ -283,15 +282,10 @@ const calculateScores = (state, action) => {
           }
         }
 
-        //Need to calcutate total score -- Must seperate top from bottom and calculate seperately
-        
-        // console.log(topCard, 'topCard')
-
         let topTotal = 0
         for (let item in topCardToBeUpdated) {
           topTotal += topCardToBeUpdated[item].value
         }
-
 
         // Gives top card bonus of 63 if total score is more than 35
         if (topTotal >= 63 ) topTotal += 35
@@ -303,8 +297,6 @@ const calculateScores = (state, action) => {
   
         newState.players[newState.activePlayer]
         .scorecard.total = topTotal + bottomTotal
-  
-      
       }
 
       // This only allows for 2 players. Easy to extend this to more in the future
@@ -313,6 +305,7 @@ const calculateScores = (state, action) => {
       // These reset the game pieces to default state
       newState.gameBoard = initialState.gameBoard
       newState.diceBoard = initialState.diceBoard
+
       // Where is this getting modified requiring an explicit declaration?
       newState.diceBoard.rollsLeft = 3
 
