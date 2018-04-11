@@ -63,11 +63,32 @@ const styles = {
         alignItems: 'center',
         width: '100%'
     },
-    
+
+    scoreTableHeader: {
+        display: 'flex',
+        justifyContent: 'space-around',
+        alignItems: 'center'
+    },
+
     playerScores: {
+        display: 'flex'
+    },
+
+    scoreTable: {
+        display: 'flex'
+    },
+
+    scoreItem: {
         display: 'flex',
         justifyContent: 'center',
-        width: '50%'
+        alignItems: 'center',
+        width: '100%'
+    },
+
+    scoreColumn: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '33.333%'
     }
 }
 

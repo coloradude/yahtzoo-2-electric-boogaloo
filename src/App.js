@@ -47,11 +47,17 @@ const App = ({
   topCardScores,
   bottomCardScores,
   score1,
-  score2
+  score2,
+  players
 }) => {
   // Drop the decision on scratchable score into component level logic
   // by passing seperate functions depending on state (addScore)
-  console.log(score1, 'total')
+
+
+  // This will have to be refactored if we allow for more than 2 players
+  const scorecard1 = players[0].scorecard
+  const scorecard2 = players[1].scorecard
+
   return <div style={styles.body}>
     <div style={styles.boardWrapper}>
       <div style={styles.playSquaresWrapper}>
@@ -138,15 +144,6 @@ const App = ({
               addScore={() => addScore(gameBoard.largeStraight.score, 'largeStraight')}
             />
             <PlaySquare 
-              name='Yahtzoo' 
-              rollsLeft={rollsLeft}
-              state={gameBoard.yahtzoo} 
-              score={bottomCardScores.yahtzoo}
-              addScore={() => addScore(gameBoard.yahtzoo.score, 'yahtzoo')}
-            />
-          </PlaySquareRow>
-          <PlaySquareRow>
-            <PlaySquare 
               name='Chance' 
               rollsLeft={rollsLeft}
               state={gameBoard.chance} 
@@ -155,28 +152,85 @@ const App = ({
             />
           </PlaySquareRow>
           <PlaySquareRow>
+          <PlaySquare 
+              name='Yahtzoo' 
+              rollsLeft={rollsLeft}
+              state={gameBoard.yahtzoo} 
+              score={bottomCardScores.yahtzoo}
+              addScore={() => addScore(gameBoard.yahtzoo.score, 'yahtzoo')}
+            />
+          </PlaySquareRow>
+          <PlaySquareRow>
             <RollSquare 
             rollsLeft={rollsLeft}
             rollFunc={() => {
-              console.log(dice, 'inside rollfunc')
-              // console.log('oh shit waddup', state)
               calculateScores(dice)
-              
-              // calculateScores(state, {type: 'CALCULATE_SCORES'})
-            }} name='Roll'/>
+            }} 
+            name='Roll'/>
           </PlaySquareRow>
         </div>
       </div>
       <div style={styles.playerScores}>
-        <div >{name1 + ' ' + score1}</div>
-        <div >{name2 + ' ' + score2}</div>
+        <div style={styles.scoreColumn}>
+          <span style={styles.scoreItem}>Upper Section</span>
+          <span style={styles.scoreItem}>Ones</span>
+          <span style={styles.scoreItem}>Twos</span>
+          <span style={styles.scoreItem}>Threes</span>
+          <span style={styles.scoreItem}>Fours</span>
+          <span style={styles.scoreItem}>Fives</span>
+          <span style={styles.scoreItem}>Sixes</span>
+          <span style={styles.scoreItem}>Bonus</span>
+          <span style={styles.scoreItem}>3 of a Kind</span>
+          <span style={styles.scoreItem}>4 of a Kind</span>
+          <span style={styles.scoreItem}>Full House</span>
+          <span style={styles.scoreItem}>Sm. Straight</span>
+          <span style={styles.scoreItem}>Lg. Straight</span>
+          <span style={styles.scoreItem}>Chance</span>
+          <span style={styles.scoreItem}>Yahtzoo</span>
+          <span style={styles.scoreItem}>Total</span>
+        </div>
+        <div style={styles.scoreColumn}>
+          <span style={styles.scoreItem}>{name1}</span>
+          <span style={styles.scoreItem}>{scorecard1.topCard.ones.value ? scorecard1.topCard.ones.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard1.topCard.twos.value ? scorecard1.topCard.twos.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard1.topCard.threes.value ? scorecard1.topCard.threes.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard1.topCard.fours.value ? scorecard1.topCard.fours.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard1.topCard.fives.value ? scorecard1.topCard.fives.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard1.topCard.sixes.value ? scorecard1.topCard.sixes.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard1.bonus ? scorecard1.bonus : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard1.bottomCard.threeOfAKind.value ? scorecard1.bottomCard.threeOfAKind.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard1.bottomCard.fourOfAKind.value ? scorecard1.bottomCard.fourOfAKind.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard1.bottomCard.fullHouse.value ? scorecard1.bottomCard.fullHouse.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard1.bottomCard.smallStraight.value ? scorecard1.bottomCard.smallStraight.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard1.bottomCard.largeStraight.value ? scorecard1.bottomCard.largeStraight.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard1.bottomCard.chance.value ? scorecard1.bottomCard.chance.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard1.bottomCard.yahtzoo.value ? scorecard1.bottomCard.yahtzoo.value : '-'}</span>
+          <span style={styles.scoreItem}>{score1}</span>
+        </div>
+        <div style={styles.scoreColumn}>
+          <span style={styles.scoreItem}>{name2}</span>
+          <span style={styles.scoreItem}>{scorecard2.topCard.ones.value ? scorecard2.topCard.ones.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard2.topCard.twos.value ? scorecard2.topCard.twos.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard2.topCard.threes.value ? scorecard2.topCard.threes.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard2.topCard.fours.value ? scorecard2.topCard.fours.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard2.topCard.fives.value ? scorecard2.topCard.fives.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard2.topCard.sixes.value ? scorecard2.topCard.sixes.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard2.bonus ? scorecard2.bonus : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard2.bottomCard.threeOfAKind.value ? scorecard2.bottomCard.threeOfAKind.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard2.bottomCard.fourOfAKind.value ? scorecard2.bottomCard.fourOfAKind.value: '-'}</span>
+          <span style={styles.scoreItem}>{scorecard2.bottomCard.fullHouse.value ? scorecard2.bottomCard.fullHouse.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard2.bottomCard.smallStraight.value ? scorecard2.bottomCard.smallStraight.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard2.bottomCard.largeStraight.value ? scorecard2.bottomCard.largeStraight.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard2.bottomCard.chance.value ? scorecard2.bottomCard.chance.value : '-'}</span>
+          <span style={styles.scoreItem}>{scorecard2.bottomCard.yahtzoo.value ? scorecard2.bottomCard.yahtzoo.value: '-'}</span>
+          <span style={styles.scoreItem}>{score2}</span>
+        </div>
       </div>
     </div>
   </div>
 } 
 
 const mapStateToProps = (state) => {
-  console.log()
   return {
     dice: state.diceBoard.dice,
     rollsLeft: state.diceBoard.rollsLeft,
@@ -186,7 +240,8 @@ const mapStateToProps = (state) => {
     name1: state.players[0].name,
     name2: state.players[1].name,
     score1: state.players[0].scorecard.total,
-    score2: state.players[1].scorecard.total
+    score2: state.players[1].scorecard.total,
+    players: state.players
   }
 }
 

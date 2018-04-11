@@ -274,8 +274,6 @@ const calculateScores = (state, action) => {
         // or the bottom card by checking for a matching key and applies the score to the 
         // correct card accordingly then calculates the new total score
 
-        
-
         if (topItemToBeUpdated){
           topCardToBeUpdated[action.payload.die] = {
             value: action.payload.score,
