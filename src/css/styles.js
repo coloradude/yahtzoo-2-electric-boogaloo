@@ -93,6 +93,35 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         width: '33.333%'
+    },
+
+    fullWidthPlaySquare: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minWidth: '50px',
+        height: '50px',
+        margin: '0 5px 0 5px',
+        border: '3px #fff solid',
+        cursor: 'pointer',
+        padding: '10px',
+        borderRadius: '3px',
+        width: '100%'
+    },
+
+    fullWidthInactiveSquare: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minWidth: '50px',
+        height: '50px',
+        margin: '0 5px 0 5px',
+        border: '3px #fff solid',
+        cursor: 'not-allowed',
+        padding: '10px',
+        borderRadius: '3px',
+        opacity: .65,
+        width: '100%'
     }
 }
 
