@@ -172,7 +172,7 @@ const App = ({
       </div>
       <div style={styles.playerScores}>
         <div style={styles.scoreColumn}>
-          <span style={styles.scoreItem}>Upper Section</span>
+          <span style={styles.scoreItem}>Hands</span>
           <span style={styles.scoreItem}>Ones</span>
           <span style={styles.scoreItem}>Twos</span>
           <span style={styles.scoreItem}>Threes</span>

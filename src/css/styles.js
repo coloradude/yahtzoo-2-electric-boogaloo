@@ -71,7 +71,8 @@ const styles = {
     },
 
     playerScores: {
-        display: 'flex'
+        display: 'flex',
+        width: '50%'
     },
 
     scoreTable: {
@@ -82,7 +83,10 @@ const styles = {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%'
+        width: '100%',
+        fontFamily: 'sans-serif',
+        color: '#fff',
+        padding: '3px 0'
     },
 
     scoreColumn: {
