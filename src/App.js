@@ -21,17 +21,24 @@ import styles from './css/styles'
 
 
 
-const DiceRow = ({dice}) => {
-  return dice.map(die => <DiePiece {...die} />)
-}
+const DiceRow = (({dice, toggleDie}) => {
+  return dice.map((die, dieIndex) => {
+    console.log(die, dieIndex, 'AAAAA')
+    return <DiePiece 
+      die={die}
+      toggleDie={toggleDie}
+      dieIndex={dieIndex}
+    />
+  })
+})
 
-const DiePiece = ({isReadyToRoll, value}) => {
+const DiePiece = ({die, toggleDie, dieIndex}) => {
+
+  // console.log(die, 'DIEEEEE')
 
   let dieImage
 
-  console.log(value, 'VALUE')
-
-  switch(value) {
+  switch(die.value) {
     case 1: dieImage = die1 
     break
     case 2: dieImage = die2
@@ -46,19 +53,21 @@ const DiePiece = ({isReadyToRoll, value}) => {
     break
   }
 
+  // Dispatch switch on particular index
+
   return <img 
     src={dieImage}
-    style={isReadyToRoll ? styles.isReadyToRoll : styles.disabledDie} 
-    onClick={ isReadyToRoll => {
-      this.isReadyToRoll = isReadyToRoll ? false : true
-    }}
+    style={die.isReadyToRoll ? styles.isReadyToRoll : styles.disabledDie} 
+    onClick={() => toggleDie(dieIndex)}
+
   />
 
 }
 
 const App = ({
   dice, 
-  gameBoard, 
+  gameBoard,
+  toggleDie, 
   calculateScores, 
   rollsLeft, 
   addScore,
@@ -185,7 +194,10 @@ const App = ({
           </PlaySquareRow>
 
 
-          <DiceRow dice={dice}/>
+          <DiceRow 
+            dice={dice}
+            toggleDie={toggleDie}
+          />
 
 
           <PlaySquareRow>
@@ -276,7 +288,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = dispatch => {
   return {
     calculateScores: (dice) => dispatch({type: 'CALCULATE_VALUES'}),
-    addScore: (score, die) => dispatch({type: 'ADD_SCORE', payload: {score, die}})
+    addScore: (score, die) => dispatch({type: 'ADD_SCORE', payload: {score, die}}),
+    toggleDie: (dieIndex) => dispatch({type: 'TOGGLE_DIE', payload: {dieIndex}})
   }
 }
 

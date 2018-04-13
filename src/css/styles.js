@@ -122,6 +122,15 @@ const styles = {
         borderRadius: '3px',
         opacity: .65,
         width: '100%'
+    },
+
+    isReadyToRoll: {
+        maxWidth: '20%'
+    },
+
+    disabledDie: {
+        maxWidth: '20%',
+        opacity: '0.5'
     }
 }
 

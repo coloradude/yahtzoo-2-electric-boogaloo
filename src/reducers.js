@@ -19,10 +19,24 @@ const calculateScores = (state, action) => {
   const activeScorecardBottom = newState.players[newState.activePlayer].scorecard.bottomCard
 
   switch(action.type){
+
+    case 'TOGGLE_DIE':
+
+      const activeDie = action.payload.dieIndex
+
+      const newDiceArray = diceArray.map((currentDie, i) => {
+        return activeDie === i ? ({isReadyToRoll: !currentDie.isReadyToRoll, value: currentDie.value}) : currentDie
+      })
+
+      console.log(newDiceArray, 'New Dice')
+
+      newState.diceBoard.dice = newDiceArray
+      return newState
+
     case 'CALCULATE_VALUES': 
 
       const dice = diceArray.map( die => {
-        return die.isReadyToRoll ? {
+        return !die.isReadyToRoll ? {
             value: (Math.ceil(Math.random() * 6)),
             isReadyToRoll: true
           }
