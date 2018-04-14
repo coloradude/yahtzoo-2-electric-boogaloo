@@ -30,6 +30,8 @@ export const fullHouseScore = dice => {
 }
 
 export const hasStraightScore = (dice, smallOrLarge) => {
+
+  dice = [...dice]
   // Sets score depending on being called for small straight of large straight
   const potentialScore = smallOrLarge === 4 ? 30 : 40
   // Sorts the dice based on value

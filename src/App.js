@@ -19,11 +19,8 @@ import die6 from './images/die-6.svg'
 
 import styles from './css/styles'
 
-
-
 const DiceRow = (({dice, toggleDie}) => {
   return dice.map((die, dieIndex) => {
-    console.log(die, dieIndex, 'AAAAA')
     return <DiePiece 
       die={die}
       toggleDie={toggleDie}
@@ -33,8 +30,6 @@ const DiceRow = (({dice, toggleDie}) => {
 })
 
 const DiePiece = ({die, toggleDie, dieIndex}) => {
-
-  // console.log(die, 'DIEEEEE')
 
   let dieImage
 
@@ -53,11 +48,9 @@ const DiePiece = ({die, toggleDie, dieIndex}) => {
     break
   }
 
-  // Dispatch switch on particular index
-
   return <img 
     src={dieImage}
-    style={die.isReadyToRoll ? styles.isReadyToRoll : styles.disabledDie} 
+    style={die.isReadyToRoll ? styles.isReadyToRoll : styles.activeDie} 
     onClick={() => toggleDie(dieIndex)}
 
   />
@@ -81,10 +74,8 @@ const App = ({
   players
 }) => {
 
-  console.log(dice, 'dice')
   // Drop the decision on scratchable score into component level logic
   // by passing seperate functions depending on state (addScore)
-
 
   // This will have to be refactored if we allow for more than 2 players
   const scorecard1 = players[0].scorecard
@@ -270,7 +261,7 @@ const App = ({
   </div>
 } 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     dice: state.diceBoard.dice,
     rollsLeft: state.diceBoard.rollsLeft,
@@ -287,9 +278,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    calculateScores: (dice) => dispatch({type: 'CALCULATE_VALUES'}),
+    calculateScores: dice => dispatch({type: 'CALCULATE_VALUES'}),
     addScore: (score, die) => dispatch({type: 'ADD_SCORE', payload: {score, die}}),
-    toggleDie: (dieIndex) => dispatch({type: 'TOGGLE_DIE', payload: {dieIndex}})
+    toggleDie: dieIndex => dispatch({type: 'TOGGLE_DIE', payload: {dieIndex}})
   }
 }
 

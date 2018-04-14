@@ -28,7 +28,7 @@ const calculateScores = (state, action) => {
         return activeDie === i ? ({isReadyToRoll: !currentDie.isReadyToRoll, value: currentDie.value}) : currentDie
       })
 
-      console.log(newDiceArray, 'New Dice')
+      console.log(newDiceArray, 'new dice')
 
       newState.diceBoard.dice = newDiceArray
       return newState
@@ -36,12 +36,24 @@ const calculateScores = (state, action) => {
     case 'CALCULATE_VALUES': 
 
       const dice = diceArray.map( die => {
-        return !die.isReadyToRoll ? {
-            value: (Math.ceil(Math.random() * 6)),
-            isReadyToRoll: true
-          }
-          : die
+        // console.log(die, 'die')
+        // return die.isReadyToRoll ? {
+        //     value: (Math.ceil(Math.random() * 6)),
+        //     isReadyToRoll: false
+        //   }
+        //   : die
+
+        if (die.isReadyToRoll){
+          die.value = (Math.ceil(Math.random() * 6))
+          die.isReadyToRoll = false
+        }
+
+        console.log(die)
+
+        return die
       })
+
+      console.log(dice, 'Dice')
 
       // Removed gameBoard.ones.isActive && ... from front of ternary, may need to add again
       // There are 4 possible states for a gameBoard tile
@@ -253,8 +265,10 @@ const calculateScores = (state, action) => {
       // newState.diceBoard.rollsLeft > 0 ? 
       //   newState.diceBoard.rollsLeft-- : 
       //   newState.diceBoard.rollsLeft++
+      console.log('New State Dice', dice)
 
       newState.diceBoard.dice = dice
+      console.log(newState.diceBoard.dice, 'dice')
       
       return newState
     
@@ -322,7 +336,9 @@ const calculateScores = (state, action) => {
       
       // These reset the game pieces to default state
       newState.gameBoard = initialState.gameBoard
-      newState.diceBoard = initialState.diceBoard
+      newState.diceBoard.dice = initialState.diceBoard.dice
+
+      console.log(initialState.diceBoard, 'initial diceboard')
 
       // Where is this getting modified requiring an explicit declaration?
       newState.diceBoard.rollsLeft = 3

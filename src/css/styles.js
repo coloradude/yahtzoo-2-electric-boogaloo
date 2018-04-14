@@ -125,12 +125,12 @@ const styles = {
     },
 
     isReadyToRoll: {
-        maxWidth: '20%'
-    },
-
-    disabledDie: {
         maxWidth: '20%',
         opacity: '0.5'
+    },
+
+    activeDie: {
+        maxWidth: '20%'
     }
 }
 
