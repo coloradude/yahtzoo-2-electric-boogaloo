@@ -1,0 +1,8 @@
+.die {
+  max-width: 20%;
+  cursor: pointer
+}
+
+.die.isReadyToRoll {
+  opacity: .5
+}
