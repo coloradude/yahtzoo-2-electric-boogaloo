@@ -2,6 +2,8 @@
   "name": "yahtzoo-2-electric-boogaloo",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://coloradude.github.io/yahtzoo-2-electric-boogaloo",
+  
   "dependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -10,6 +12,7 @@
     "redux": "^3.7.2"
   },
   "scripts": {
+    "deploy" : "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
