@@ -2,7 +2,7 @@
   "name": "yahtzoo-2-electric-boogaloo",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://coloradude.github.io/yahtzoo-2-electric-boogaloo",
+  "homepage": "https://coloradude.github.io/yahztoo-2-electric-boogaloo/",
   
   "dependencies": {
     "react": "^16.2.0",
