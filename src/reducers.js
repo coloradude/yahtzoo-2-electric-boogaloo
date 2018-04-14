@@ -22,6 +22,10 @@ const calculateScores = (state, action) => {
 
     case 'TOGGLE_DIE':
 
+      if (state.diceBoard.rollsLeft === 3){
+        return state
+      }
+
       const activeDie = action.payload.dieIndex
 
       const newDiceArray = diceArray.map((currentDie, i) => {
@@ -36,7 +40,6 @@ const calculateScores = (state, action) => {
     case 'CALCULATE_VALUES': 
 
       const dice = diceArray.map( die => {
-        // console.log(die, 'die')
         // return die.isReadyToRoll ? {
         //     value: (Math.ceil(Math.random() * 6)),
         //     isReadyToRoll: false
@@ -47,8 +50,6 @@ const calculateScores = (state, action) => {
           die.value = (Math.ceil(Math.random() * 6))
           die.isReadyToRoll = false
         }
-
-        console.log(die)
 
         return die
       })
@@ -336,9 +337,9 @@ const calculateScores = (state, action) => {
       
       // These reset the game pieces to default state
       newState.gameBoard = initialState.gameBoard
-      newState.diceBoard.dice = initialState.diceBoard.dice
 
-      console.log(initialState.diceBoard, 'initial diceboard')
+      const freshDice = diceArray.map(die => ({isReadyToRoll: true, value: 1}))      
+      newState.diceBoard.dice = freshDice
 
       // Where is this getting modified requiring an explicit declaration?
       newState.diceBoard.rollsLeft = 3

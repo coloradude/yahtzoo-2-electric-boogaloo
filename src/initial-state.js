@@ -193,19 +193,19 @@ const initialState = {
     },
     diceBoard: {
         dice:[{
-            isReadyToRoll: false,
+            isReadyToRoll: true,
             value: 1
         },{
-            isReadyToRoll: false,
+            isReadyToRoll: true,
             value: 1
         },{
-            isReadyToRoll: false,
+            isReadyToRoll: true,
             value: 1
         },{
-            isReadyToRoll: false,
+            isReadyToRoll: true,
             value: 1
         },{
-            isReadyToRoll: false,
+            isReadyToRoll: true,
             value: 1
         }],
         rollsLeft: 3
