@@ -19,8 +19,6 @@ import die4 from './images/die-4.svg'
 import die5 from './images/die-5.svg'
 import die6 from './images/die-6.svg'
 
-import styles from './css/styles'
-
 const DiceRow = (({dice, toggleDie}) => {
   return dice.map((die, dieIndex) => {
     return <DiePiece 
@@ -52,7 +50,7 @@ const DiePiece = ({die, toggleDie, dieIndex}) => {
 
   return <img 
     src={dieImage}
-    style={die.isReadyToRoll ? styles.isReadyToRoll : styles.activeDie} 
+    className={die.isReadyToRoll ? 'isReadyToRoll' : 'activeDie'} 
     onClick={() => toggleDie(dieIndex)}
 
   />
@@ -87,7 +85,7 @@ const App = ({
     <div className='boardWrapper'>
       <div className='playSquaresWrapper'>
         <div>
-          <PlaySquareRow style={styles}>
+          <PlaySquareRow>
           {/*  this needs to be a map */}
             <PlaySquare 
               name='Ones' 
@@ -132,7 +130,7 @@ const App = ({
               addScore={() => addScore(gameBoard.sixes.score, 'sixes')}
             />
           </PlaySquareRow>
-          <PlaySquareRow style={styles}>
+          <PlaySquareRow>
             <PlaySquare 
               name='3 of a Kind' 
               rollsLeft={rollsLeft}
@@ -203,60 +201,60 @@ const App = ({
           </PlaySquareRow>
         </div>
       </div>
-      <div style={styles.playerScores}>
-        <div style={styles.scoreColumn}>
-          <span style={styles.scoreItem}>Hands</span>
-          <span style={styles.scoreItem}>Ones</span>
-          <span style={styles.scoreItem}>Twos</span>
-          <span style={styles.scoreItem}>Threes</span>
-          <span style={styles.scoreItem}>Fours</span>
-          <span style={styles.scoreItem}>Fives</span>
-          <span style={styles.scoreItem}>Sixes</span>
-          <span style={styles.scoreItem}>Bonus</span>
-          <span style={styles.scoreItem}>3 of a Kind</span>
-          <span style={styles.scoreItem}>4 of a Kind</span>
-          <span style={styles.scoreItem}>Full House</span>
-          <span style={styles.scoreItem}>Sm. Straight</span>
-          <span style={styles.scoreItem}>Lg. Straight</span>
-          <span style={styles.scoreItem}>Chance</span>
-          <span style={styles.scoreItem}>Yahtzoo</span>
-          <span style={styles.scoreItem}>Total</span>
+      <div className='playerScores'>
+        <div className='scoreColumn'>
+          <span>Hands</span>
+          <span>Ones</span>
+          <span>Twos</span>
+          <span>Threes</span>
+          <span>Fours</span>
+          <span>Fives</span>
+          <span>Sixes</span>
+          <span>Bonus</span>
+          <span>3 of a Kind</span>
+          <span>4 of a Kind</span>
+          <span>Full House</span>
+          <span>Sm. Straight</span>
+          <span>Lg. Straight</span>
+          <span>Chance</span>
+          <span>Yahtzoo</span>
+          <span>Total</span>
         </div>
-        <div style={styles.scoreColumn}>
-          <span style={styles.scoreItem}>{name1}</span>
-          <span style={styles.scoreItem}>{scorecard1.topCard.ones.value ? scorecard1.topCard.ones.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard1.topCard.twos.value ? scorecard1.topCard.twos.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard1.topCard.threes.value ? scorecard1.topCard.threes.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard1.topCard.fours.value ? scorecard1.topCard.fours.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard1.topCard.fives.value ? scorecard1.topCard.fives.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard1.topCard.sixes.value ? scorecard1.topCard.sixes.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard1.bonus ? scorecard1.bonus : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard1.bottomCard.threeOfAKind.value ? scorecard1.bottomCard.threeOfAKind.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard1.bottomCard.fourOfAKind.value ? scorecard1.bottomCard.fourOfAKind.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard1.bottomCard.fullHouse.value ? scorecard1.bottomCard.fullHouse.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard1.bottomCard.smallStraight.value ? scorecard1.bottomCard.smallStraight.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard1.bottomCard.largeStraight.value ? scorecard1.bottomCard.largeStraight.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard1.bottomCard.chance.value ? scorecard1.bottomCard.chance.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard1.bottomCard.yahtzoo.value ? scorecard1.bottomCard.yahtzoo.value : '-'}</span>
-          <span style={styles.scoreItem}>{score1}</span>
+        <div className='scoreColumn'>
+          <span>{name1}</span>
+          <span>{scorecard1.topCard.ones.value ? scorecard1.topCard.ones.value : '-'}</span>
+          <span>{scorecard1.topCard.twos.value ? scorecard1.topCard.twos.value : '-'}</span>
+          <span>{scorecard1.topCard.threes.value ? scorecard1.topCard.threes.value : '-'}</span>
+          <span>{scorecard1.topCard.fours.value ? scorecard1.topCard.fours.value : '-'}</span>
+          <span>{scorecard1.topCard.fives.value ? scorecard1.topCard.fives.value : '-'}</span>
+          <span>{scorecard1.topCard.sixes.value ? scorecard1.topCard.sixes.value : '-'}</span>
+          <span>{scorecard1.bonus ? scorecard1.bonus : '-'}</span>
+          <span>{scorecard1.bottomCard.threeOfAKind.value ? scorecard1.bottomCard.threeOfAKind.value : '-'}</span>
+          <span>{scorecard1.bottomCard.fourOfAKind.value ? scorecard1.bottomCard.fourOfAKind.value : '-'}</span>
+          <span>{scorecard1.bottomCard.fullHouse.value ? scorecard1.bottomCard.fullHouse.value : '-'}</span>
+          <span>{scorecard1.bottomCard.smallStraight.value ? scorecard1.bottomCard.smallStraight.value : '-'}</span>
+          <span>{scorecard1.bottomCard.largeStraight.value ? scorecard1.bottomCard.largeStraight.value : '-'}</span>
+          <span>{scorecard1.bottomCard.chance.value ? scorecard1.bottomCard.chance.value : '-'}</span>
+          <span>{scorecard1.bottomCard.yahtzoo.value ? scorecard1.bottomCard.yahtzoo.value : '-'}</span>
+          <span>{score1}</span>
         </div>
-        <div style={styles.scoreColumn}>
-          <span style={styles.scoreItem}>{name2}</span>
-          <span style={styles.scoreItem}>{scorecard2.topCard.ones.value ? scorecard2.topCard.ones.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard2.topCard.twos.value ? scorecard2.topCard.twos.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard2.topCard.threes.value ? scorecard2.topCard.threes.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard2.topCard.fours.value ? scorecard2.topCard.fours.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard2.topCard.fives.value ? scorecard2.topCard.fives.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard2.topCard.sixes.value ? scorecard2.topCard.sixes.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard2.bonus ? scorecard2.bonus : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard2.bottomCard.threeOfAKind.value ? scorecard2.bottomCard.threeOfAKind.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard2.bottomCard.fourOfAKind.value ? scorecard2.bottomCard.fourOfAKind.value: '-'}</span>
-          <span style={styles.scoreItem}>{scorecard2.bottomCard.fullHouse.value ? scorecard2.bottomCard.fullHouse.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard2.bottomCard.smallStraight.value ? scorecard2.bottomCard.smallStraight.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard2.bottomCard.largeStraight.value ? scorecard2.bottomCard.largeStraight.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard2.bottomCard.chance.value ? scorecard2.bottomCard.chance.value : '-'}</span>
-          <span style={styles.scoreItem}>{scorecard2.bottomCard.yahtzoo.value ? scorecard2.bottomCard.yahtzoo.value: '-'}</span>
-          <span style={styles.scoreItem}>{score2}</span>
+        <div className='scoreColumn'>
+          <span>{name2}</span>
+          <span>{scorecard2.topCard.ones.value ? scorecard2.topCard.ones.value : '-'}</span>
+          <span>{scorecard2.topCard.twos.value ? scorecard2.topCard.twos.value : '-'}</span>
+          <span>{scorecard2.topCard.threes.value ? scorecard2.topCard.threes.value : '-'}</span>
+          <span>{scorecard2.topCard.fours.value ? scorecard2.topCard.fours.value : '-'}</span>
+          <span>{scorecard2.topCard.fives.value ? scorecard2.topCard.fives.value : '-'}</span>
+          <span>{scorecard2.topCard.sixes.value ? scorecard2.topCard.sixes.value : '-'}</span>
+          <span>{scorecard2.bonus ? scorecard2.bonus : '-'}</span>
+          <span>{scorecard2.bottomCard.threeOfAKind.value ? scorecard2.bottomCard.threeOfAKind.value : '-'}</span>
+          <span>{scorecard2.bottomCard.fourOfAKind.value ? scorecard2.bottomCard.fourOfAKind.value: '-'}</span>
+          <span>{scorecard2.bottomCard.fullHouse.value ? scorecard2.bottomCard.fullHouse.value : '-'}</span>
+          <span>{scorecard2.bottomCard.smallStraight.value ? scorecard2.bottomCard.smallStraight.value : '-'}</span>
+          <span>{scorecard2.bottomCard.largeStraight.value ? scorecard2.bottomCard.largeStraight.value : '-'}</span>
+          <span>{scorecard2.bottomCard.chance.value ? scorecard2.bottomCard.chance.value : '-'}</span>
+          <span>{scorecard2.bottomCard.yahtzoo.value ? scorecard2.bottomCard.yahtzoo.value: '-'}</span>
+          <span>{score2}</span>
         </div>
       </div>
     </div>
