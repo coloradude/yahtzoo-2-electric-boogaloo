@@ -3,3 +3,101 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.container {
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  box-sizing: 'border-box';
+  background-color: #d03c28
+}
+
+.boardWrapper {
+  display: flex;
+}
+
+.playSquaresWrapper {
+  display: flex;
+  justify-content: center;
+  width: 50%
+}
+
+.playSquareRow {
+  display: flex;
+  font-family: sans-serif;
+  text-align: center;
+  padding: 10px 0;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff
+}
+
+.playSquare {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 50px;
+  min-width: 50px;
+  height: 50px;
+  margin: 0 5px 0 5px;
+  border: 3px #fff solid;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 3px
+}
+
+.playSquare.inactiveSquare {
+  cursor: disabled;
+  opacity: .65
+}
+
+.playerScores {
+  display: flex;
+  width: 50%;
+}
+
+.scoreTable {
+  display: flex;
+}
+
+.scoreItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 3px 0
+}
+
+.scoreColumn {
+  display: flex;
+  flex-direction: column;
+  width: 33.33333%
+}
+
+.fullWidthPlaySquare {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 50px;
+  height: 50px;
+  margin: 0 5px;
+  border: 3px #fff solid;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 3px;
+  width: 100%
+}
+
+.fullWidthPlaySquare.inactive {
+  opacity: .65;
+  cursor: not-allowed
+}
+
+.isReadyToRoll {
+  max-width: 20%;
+  opacity: .05
+}
+
+.activeDie {
+  max-width: 20%
+}

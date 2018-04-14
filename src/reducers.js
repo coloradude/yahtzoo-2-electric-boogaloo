@@ -22,7 +22,7 @@ const calculateScores = (state, action) => {
 
     case 'TOGGLE_DIE':
 
-      if (state.diceBoard.rollsLeft === 3){
+      if (state.diceBoard.rollsLeft === 3 || state.diceBoard.rollsLeft === 0){
         return state
       }
 
@@ -32,25 +32,16 @@ const calculateScores = (state, action) => {
         return activeDie === i ? ({isReadyToRoll: !currentDie.isReadyToRoll, value: currentDie.value}) : currentDie
       })
 
-      console.log(newDiceArray, 'new dice')
-
       newState.diceBoard.dice = newDiceArray
       return newState
 
     case 'CALCULATE_VALUES': 
 
       const dice = diceArray.map( die => {
-        // return die.isReadyToRoll ? {
-        //     value: (Math.ceil(Math.random() * 6)),
-        //     isReadyToRoll: false
-        //   }
-        //   : die
-
         if (die.isReadyToRoll){
           die.value = (Math.ceil(Math.random() * 6))
           die.isReadyToRoll = false
         }
-
         return die
       })
 
@@ -266,10 +257,8 @@ const calculateScores = (state, action) => {
       // newState.diceBoard.rollsLeft > 0 ? 
       //   newState.diceBoard.rollsLeft-- : 
       //   newState.diceBoard.rollsLeft++
-      console.log('New State Dice', dice)
 
       newState.diceBoard.dice = dice
-      console.log(newState.diceBoard.dice, 'dice')
       
       return newState
     

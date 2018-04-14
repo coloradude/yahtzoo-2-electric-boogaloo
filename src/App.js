@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import './css/index.css'
+
 import { PlaySquare, 
   FullWidthPlaySquare, 
   PlaySquareRow 
@@ -81,9 +83,9 @@ const App = ({
   const scorecard1 = players[0].scorecard
   const scorecard2 = players[1].scorecard
 
-  return <div style={styles.body}>
-    <div style={styles.boardWrapper}>
-      <div style={styles.playSquaresWrapper}>
+  return <div className='container'>
+    <div className='boardWrapper'>
+      <div className='playSquaresWrapper'>
         <div>
           <PlaySquareRow style={styles}>
           {/*  this needs to be a map */}
