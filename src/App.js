@@ -50,7 +50,7 @@ const DiePiece = ({die, toggleDie, dieIndex}) => {
 
   return <img 
     src={dieImage}
-    className={die.isReadyToRoll ? 'isReadyToRoll' : 'activeDie'} 
+    className={die.isReadyToRoll ? 'die isReadyToRoll' : 'die'} 
     onClick={() => toggleDie(dieIndex)}
 
   />
