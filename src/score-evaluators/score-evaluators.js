@@ -39,6 +39,9 @@ export const hasStraightScore = (dice, smallOrLarge) => {
   
   // For first 4 die, pulls out die that arent 1 smaller than next die.
   // Pulls out last die if it isnt 1 more than previous
+  
+  // I think there is a bug is the small straight is 1234 not 2345 or 3456
+  // Due to the i < 4 statement
   const filtered = sorted.filter((die, i) => {
     return i < 4 ?
       sorted[i].value + 1 === sorted[i + 1].value :

@@ -1,6 +1,7 @@
 import React from 'react'
 
-import './dice-pieces.css'
+import css from './dice-pieces.styl'
+
 
 import die1 from '../../../images/die-1.svg'
 import die2 from '../../../images/die-2.svg'
@@ -9,6 +10,8 @@ import die4 from '../../../images/die-4.svg'
 import die5 from '../../../images/die-5.svg'
 import die6 from '../../../images/die-6.svg'
 
+
+console.log(css)
 const DiePiece = ({die, toggleDie, dieIndex}) => {
     
   let dieImage

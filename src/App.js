@@ -6,10 +6,9 @@ import './css/index.css'
 import { 
   PlaySquare, 
   FullWidthPlaySquare
-} from './components/game-pieces/play-squares/play-squares.jsx' 
+} from './components/game-pieces/play-squares/play-squares.jsx'
 
 import DiceRow from './components/lists/dice-row/dice-row.jsx'
-import DiePiece from './components/game-pieces/dice-pieces/dice-pieces.jsx'
 import PlaySquareRow from './components/lists/play-square-row/play-square-row.jsx'
 import RollSquare from './components/game-pieces/roll-square/roll-square.jsx'
 
@@ -38,6 +37,7 @@ const App = ({
   const scorecard2 = players[1].scorecard
 
   return <div className='container'>
+    <h1 className='title'>Yahtzoo</h1>
     <div className='boardWrapper'>
       <div className='playSquaresWrapper'>
         <div>
