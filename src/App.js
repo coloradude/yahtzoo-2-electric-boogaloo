@@ -12,6 +12,22 @@ import DiceRow from './components/lists/dice-row/dice-row.jsx'
 import PlaySquareRow from './components/lists/play-square-row/play-square-row.jsx'
 import RollSquare from './components/game-pieces/roll-square/roll-square.jsx'
 
+const PlayerNameModal = () => {
+  return [
+  <div className='playerNameModalBackdrop'></div>,
+  <div className='playerNameModal'>
+    <div className='playerNameInput'>
+      <span>Player 1</span>
+      <input type='text' placeholder='Player 1 Name'></input>
+    </div>
+    <div className='playerNameInput'>
+      <span>Player 2</span>
+      <input type='text' placeholder='Player 2 Name'></input>
+    </div>
+  </div>]
+    
+}
+
 const App = ({
   dice, 
   gameBoard,
@@ -37,6 +53,7 @@ const App = ({
   const scorecard2 = players[1].scorecard
 
   return <div className='container'>
+    <PlayerNameModal/>
     <h1 className='title'>Yahtzoo</h1>
     <div className='boardWrapper'>
       <div className='playSquaresWrapper'>

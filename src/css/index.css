@@ -3,6 +3,10 @@
   src: local('Revue'), url('../fonts/Revue.ttf') format('truetype')
 }
 
+/* * {
+  box-sizing: border-box;
+} */
+
 .title {
   font-family: 'Revue';
 }
@@ -14,6 +18,7 @@ body {
 }
 
 .container {
+  position: relative;
   height: 100vh;
   padding: 0;
   margin: 0;
@@ -23,6 +28,8 @@ body {
 
 .boardWrapper {
   display: flex;
+  position: fixed;
+  width: 100%
 }
 
 .playSquaresWrapper {
@@ -69,4 +76,27 @@ body {
   color: #fff;
 }
 
+.playerNameModalBackdrop {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,0.75)
+}
 
+.playerNameModal {
+  position: fixed;
+  z-index: 1;
+  top: 25%;
+  left: 25%;
+  width: 50%;
+  height: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px #fff solid;
+  border-radius: 3px;
+  background-color: #d03c28;
+}

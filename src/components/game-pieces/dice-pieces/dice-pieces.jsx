@@ -1,7 +1,6 @@
 import React from 'react'
 
-import css from './dice-pieces.styl'
-
+import css from './dice-pieces.css'
 
 import die1 from '../../../images/die-1.svg'
 import die2 from '../../../images/die-2.svg'
