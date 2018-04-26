@@ -1,7 +1,22 @@
 ## Yahtzoo 2 - Electric Boogaloo
 The highly anticipated sequel to the worldwide phenomenon known as Yahtzoo
 
-[Demo Here:](coloradude.github.io/yahtzoo-2-electric-boogaloo) 
+Demo Here: [coloradude.github.io/yahtzoo-2-electric-boogaloo](coloradude.github.io/yahtzoo-2-electric-boogaloo) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
