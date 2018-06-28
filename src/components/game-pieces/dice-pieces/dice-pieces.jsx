@@ -9,8 +9,6 @@ import die4 from '../../../images/die-4.svg'
 import die5 from '../../../images/die-5.svg'
 import die6 from '../../../images/die-6.svg'
 
-
-console.log(css)
 const DiePiece = ({die, toggleDie, dieIndex}) => {
     
   let dieImage
@@ -34,9 +32,7 @@ const DiePiece = ({die, toggleDie, dieIndex}) => {
     src={dieImage}
     className={die.isReadyToRoll ? 'die isReadyToRoll' : 'die'} 
     onClick={() => toggleDie(dieIndex)}
-
   />
-
 }
 
 export default DiePiece

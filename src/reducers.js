@@ -7,6 +7,8 @@ import {
   yahtzooScore
 } from './score-evaluators/score-evaluators'
 
+import ReactDOM from 'react-dom'
+
 import initialState from './initial-state'
 
 
@@ -333,6 +335,23 @@ const calculateScores = (state, action) => {
       // Where is this getting modified requiring an explicit declaration?
       newState.diceBoard.rollsLeft = 3
 
+      return newState
+
+    case 'UPDATE_NAME':
+
+      if (action.payload.index === 0) {
+        newState.players[0].name = action.payload.name
+      } else {
+        newState.players[1].name = action.payload.name
+      }
+      return newState
+
+    case 'START_GAME' : 
+
+      newState.initialModal = false
+      console.log(newState)
+      // ReactDOM.unmountComponentAtNode(document.getElementById('playerNameModalBackdrop'));
+      
       return newState
     
     default:

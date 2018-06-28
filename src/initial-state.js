@@ -1,8 +1,9 @@
 const initialState = {
+    initialModal: true,
     activePlayer: 0,
     players:[{
         isActive: true,
-        name: 'One',
+        name: '',
         scorecard: {
             topCard: {
                 ones: {
@@ -68,7 +69,7 @@ const initialState = {
             }
         },{
         isActive: false,
-        name: 'Two',
+        name: '',
         scorecard: {
             topCard: {
                 ones: {

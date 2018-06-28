@@ -12,20 +12,40 @@ import DiceRow from './components/lists/dice-row/dice-row.jsx'
 import PlaySquareRow from './components/lists/play-square-row/play-square-row.jsx'
 import RollSquare from './components/game-pieces/roll-square/roll-square.jsx'
 
-const PlayerNameModal = () => {
+const PlayerNameModal = ({
+  name1 = 'One', 
+  name2 = 'Two', 
+  updateName, 
+  startGame
+}) => {
   return [
-  <div className='playerNameModalBackdrop'></div>,
-  <div className='playerNameModal'>
-    <div className='playerNameInput'>
-      <span>Player 1</span>
-      <input type='text' placeholder='Player 1 Name'></input>
+    <div id='playerNameModalBackdrop' className='playerNameModalBackdrop'></div>,
+    <div className='playerNameModal'>
+      <div className='playerNameModalContent'>
+        <h3>Player Names</h3>
+        <div className='playerNameInput'>
+          <span>Player 1:  </span>
+          <input 
+            type='text' 
+            placeholder='Player 1 Name'
+            onChange={(e) => updateName(e.target.value, 0)}
+          />
+        </div>
+        <div className='playerNameInput'>
+          <span>Player 2:  </span>
+          <input 
+            type='text' 
+            placeholder='Player 2 Name'
+            onChange={(e) => updateName(e.target.value, 1)}
+          />
+        </div>
+        <button 
+          className='startGameButton'
+          onClick={() => startGame()}
+          >Start Game</button>
+      </div>
     </div>
-    <div className='playerNameInput'>
-      <span>Player 2</span>
-      <input type='text' placeholder='Player 2 Name'></input>
-    </div>
-  </div>]
-    
+  ]  
 }
 
 const App = ({
@@ -42,7 +62,10 @@ const App = ({
   bottomCardScores,
   score1,
   score2,
-  players
+  players,
+  updateName,
+  initialModal,
+  startGame
 }) => {
 
   // Drop the decision on scratchable score into component level logic
@@ -53,7 +76,12 @@ const App = ({
   const scorecard2 = players[1].scorecard
 
   return <div className='container'>
-    <PlayerNameModal/>
+    {initialModal ? <PlayerNameModal
+      name1={name1}
+      name2={name2}
+      updateName = {updateName}
+      startGame = {startGame}
+    /> : ''}
     <h1 className='title'>Yahtzoo</h1>
     <div className='boardWrapper'>
       <div className='playSquaresWrapper'>
@@ -245,7 +273,8 @@ const mapStateToProps = state => {
     name2: state.players[1].name,
     score1: state.players[0].scorecard.total,
     score2: state.players[1].scorecard.total,
-    players: state.players
+    players: state.players,
+    initialModal: state.initialModal
   }
 }
 
@@ -253,7 +282,9 @@ const mapDispatchToProps = dispatch => {
   return {
     calculateScores: dice => dispatch({type: 'CALCULATE_VALUES'}),
     addScore: (score, die) => dispatch({type: 'ADD_SCORE', payload: {score, die}}),
-    toggleDie: dieIndex => dispatch({type: 'TOGGLE_DIE', payload: {dieIndex}})
+    toggleDie: dieIndex => dispatch({type: 'TOGGLE_DIE', payload: {dieIndex}}),
+    updateName: (name, index) => dispatch({type: 'UPDATE_NAME', payload: {name, index}}),
+    startGame: () => dispatch({type: 'START_GAME'})
   }
 }
 
