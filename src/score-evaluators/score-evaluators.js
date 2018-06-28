@@ -31,6 +31,8 @@ export const fullHouseScore = dice => {
 
 export const hasStraightScore = (dice, smallOrLarge) => {
 
+  // 🐞 3 5 4 5 2 didnt work on small straight for some reason
+
   dice = [...dice]
   // Sets score depending on being called for small straight of large straight
   const potentialScore = smallOrLarge === 4 ? 30 : 40
@@ -61,9 +63,9 @@ export const yahtzooScore = dice => {
     curr[next.value] = curr[next.value] + 1 || 1
     return curr
   }, {})
-   return Object.getOwnPropertyNames(scores).length === 1 ? 50 : 0
+  return Object.getOwnPropertyNames(scores).length === 1 ? 50 : 0
 }
 
 export const chanceScore = dice => {
-    return dice.reduce((curr, next) => curr + next.value, 0)
+  return dice.reduce((curr, next) => curr + next.value, 0)
 }

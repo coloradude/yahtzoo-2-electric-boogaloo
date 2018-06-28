@@ -11,42 +11,7 @@ import {
 import DiceRow from './components/lists/dice-row/dice-row.jsx'
 import PlaySquareRow from './components/lists/play-square-row/play-square-row.jsx'
 import RollSquare from './components/game-pieces/roll-square/roll-square.jsx'
-
-const PlayerNameModal = ({
-  name1 = 'One', 
-  name2 = 'Two', 
-  updateName, 
-  startGame
-}) => {
-  return [
-    <div id='playerNameModalBackdrop' className='playerNameModalBackdrop'></div>,
-    <div className='playerNameModal'>
-      <div className='playerNameModalContent'>
-        <h3>Player Names</h3>
-        <div className='playerNameInput'>
-          <span>Player 1:  </span>
-          <input 
-            type='text' 
-            placeholder='Player 1 Name'
-            onChange={(e) => updateName(e.target.value, 0)}
-          />
-        </div>
-        <div className='playerNameInput'>
-          <span>Player 2:  </span>
-          <input 
-            type='text' 
-            placeholder='Player 2 Name'
-            onChange={(e) => updateName(e.target.value, 1)}
-          />
-        </div>
-        <button 
-          className='startGameButton'
-          onClick={() => startGame()}
-          >Start Game</button>
-      </div>
-    </div>
-  ]  
-}
+import PlayerNameModal from './components/modals/playerNameModal'
 
 const App = ({
   dice, 
