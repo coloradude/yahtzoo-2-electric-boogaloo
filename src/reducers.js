@@ -39,15 +39,27 @@ const calculateScores = (state, action) => {
 
     case 'CALCULATE_VALUES': 
 
-      const dice = diceArray.map( die => {
-        if (die.isReadyToRoll){
-          die.value = (Math.ceil(Math.random() * 6))
-          die.isReadyToRoll = false
-        }
-        return die
-      })
+      // Need to acccount for if no dice were selected
 
-      console.log(dice, 'Dice')
+      let dice
+
+      if (diceArray.every(die => !die.isReadyToRoll)) {
+        dice = diceArray.map(die => {
+          die.value = (Math.ceil(Math.random() * 6))
+          
+          return die
+        })
+      }
+
+      else {
+        dice = diceArray.map( die => {
+          if (die.isReadyToRoll){
+            die.value = (Math.ceil(Math.random() * 6))
+            die.isReadyToRoll = false
+          }
+          return die
+        })
+      }
 
       // Removed gameBoard.ones.isActive && ... from front of ternary, may need to add again
       // There are 4 possible states for a gameBoard tile
@@ -323,6 +335,38 @@ const calculateScores = (state, action) => {
         .scorecard.total = topTotal + bottomTotal
       }
 
+      // Check if we should initiate end game
+
+      const playersFinished = newState.players.filter((player, i) => {
+
+        let topCardCompletion = 0
+        let bottomCardCompletion = 0
+
+        for (let scorecard in player.scorecard){
+
+          if (scorecard === 'bonus' || scorecard === 'total') continue
+
+          if (scorecard === 'topCard'){
+            for (let item in player.scorecard[scorecard]){
+              if (player.scorecard[scorecard][item].value > 0 || player.scorecard[scorecard][item].isScratched) topCardCompletion++
+            }
+          }
+
+          else {
+            for (let item in player.scorecard[scorecard]){
+              if (player.scorecard[scorecard][item].value > 0 || player.scorecard[scorecard][item].isScratched) bottomCardCompletion++
+            }
+          }
+        }
+
+        return topCardCompletion === 6 && bottomCardCompletion === 7
+
+      })
+
+      if (playersFinished.length === newState.players.length){
+        newState.gameOver = true
+      }
+
       // This only allows for 2 players. Easy to extend this to more in the future
       newState.activePlayer = newState.activePlayer === 0 ? 1 : 0
       
@@ -349,7 +393,7 @@ const calculateScores = (state, action) => {
     case 'START_GAME' : 
 
       newState.initialModal = false
-      console.log(newState)
+      // console.log(newState)
       // ReactDOM.unmountComponentAtNode(document.getElementById('playerNameModalBackdrop'));
       
       return newState

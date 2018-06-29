@@ -121,7 +121,7 @@ body {
   /* width: 40%; */
   border-radius: 3px;
   border: 3px solid #000;
-  margin: 0 10px;
+  margin-left: 10px;
   padding: 10px 10px;
   font-size: 14px;
 }
@@ -139,6 +139,20 @@ body {
   animation-duration: 1s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
+}
+
+.startGameButton {
+  width: 100%;
+  font-size: 14px;
+  padding: 10px 0;
+  margin: 0 10px;
+  border-radius: 3px;
+  border: 3px solid #000;
+  cursor: pointer;
+}
+
+.startGameButton:hover {
+  background-color: #d48278;
 }
 
 @-webkit-keyframes shake {

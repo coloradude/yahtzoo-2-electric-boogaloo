@@ -1,4 +1,5 @@
 const initialState = {
+    gameOver: false,
     initialModal: true,
     activePlayer: 0,
     players:[{
