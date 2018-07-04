@@ -24,39 +24,103 @@ const calculateScores = (state, action) => {
 
     case 'TOGGLE_DIE':
 
+    // Need to add conidtion if all dice are active all are rolling
+
       if (state.diceBoard.rollsLeft === 3 || state.diceBoard.rollsLeft === 0){
         return state
       }
 
       const activeDie = action.payload.dieIndex
 
-      const newDiceArray = diceArray.map((currentDie, i) => {
-        return activeDie === i ? ({isReadyToRoll: !currentDie.isReadyToRoll, value: currentDie.value}) : currentDie
+      // Supposed to handle animations if all die are not activated
+
+      const allActive = diceArray.every(die => {
+        if (!die.isReadyToRoll) return false
+        else {
+          die.isRolling = true
+          return die
+        }
       })
+
+      if (allActive.length === diceArray.length){
+        return allActive
+      }
+
+      const newDiceArray = diceArray.map((currentDie, i) => {
+
+        if (activeDie === i){
+          currentDie = {
+            isReadyToRoll: !currentDie.isReadyToRoll, 
+            value: currentDie.value,
+            shouldBeAnimated: true,
+            isRolling: false
+          }
+        } else {
+          currentDie.shouldBeAnimated = false
+        }
+
+        return currentDie
+
+        // return activeDie === i ? ({
+        //   isReadyToRoll: !currentDie.isReadyToRoll, 
+        //   value: currentDie.value,
+        //   shouldBeAnimated: true
+        // }) 
+        //   : currentDie
+      })
+
+      // const newDiceArray = diceArray.map((currentDie, i) => {
+      //   return activeDie === i ? ({
+      //     isReadyToRoll: !currentDie.isReadyToRoll, 
+      //     value: currentDie.value,
+      //     shouldBeAnimated: true
+      //   }) 
+      //     : currentDie
+      // })
+
+      console.log(newDiceArray)
 
       newState.diceBoard.dice = newDiceArray
       return newState
 
     case 'CALCULATE_VALUES': 
 
-      // Need to acccount for if no dice were selected
-
       let dice
+
+      // Handles dice if none are selected to roll
+
+      // const resetAnimationDice = diceArray.map(die => {
+      //   die.shouldBeAnimated = false
+      //   return die
+      // })
+
 
       if (diceArray.every(die => !die.isReadyToRoll)) {
         dice = diceArray.map(die => {
           die.value = (Math.ceil(Math.random() * 6))
-          
+
+          // Add property to die to trigger animations on rerender
+          // if no dice were clicked
+          // die.shouldBeAnimated = true
+          die.isRolling = true
           return die
         })
+        
       }
 
+      // Handles dice if any are selected to roll
+
       else {
-        dice = diceArray.map( die => {
+        dice = diceArray.map(die => {
           if (die.isReadyToRoll){
             die.value = (Math.ceil(Math.random() * 6))
             die.isReadyToRoll = false
+            die.shouldBeAnimated = true
+            die.isRolling = true
           }
+          // else {
+          //   die.shouldBeAnimated = false
+          // }
           return die
         })
       }
@@ -337,7 +401,7 @@ const calculateScores = (state, action) => {
 
       // Check if we should initiate end game
 
-      const playersFinished = newState.players.filter((player, i) => {
+      const playersFinished = newState.players.filter(player => {
 
         let topCardCompletion = 0
         let bottomCardCompletion = 0
@@ -365,6 +429,7 @@ const calculateScores = (state, action) => {
 
       if (playersFinished.length === newState.players.length){
         newState.gameOver = true
+        return newState
       }
 
       // This only allows for 2 players. Easy to extend this to more in the future
