@@ -12,6 +12,7 @@ import DiceRow from './components/lists/dice-row/dice-row.jsx'
 import PlaySquareRow from './components/lists/play-square-row/play-square-row.jsx'
 import RollSquare from './components/game-pieces/roll-square/roll-square.jsx'
 import PlayerNameModal from './components/modals/playerNameModal'
+import GameOverModal from './components/modals/gameOverModal'
 
 const App = ({
   dice, 
@@ -30,7 +31,9 @@ const App = ({
   players,
   updateName,
   initialModal,
-  startGame
+  startGame,
+  gameOverModal,
+  gameOver
 }) => {
 
   // Drop the decision on scratchable score into component level logic
@@ -40,6 +43,8 @@ const App = ({
   const scorecard1 = players[0].scorecard
   const scorecard2 = players[1].scorecard
 
+  // if (gameOver) gameOverModal()
+
   return <div className='container'>
     {initialModal ? <PlayerNameModal
       name1={name1}
@@ -47,6 +52,12 @@ const App = ({
       updateName = {updateName}
       startGame = {startGame}
     /> : ''}
+    {gameOver ? <GameOverModal
+      name1={name1}
+      name2={name2}
+      score1={score1}
+      score2={score2}
+    />: ''}
     <h1 className='title'>Yahtzoo</h1>
     <div className='boardWrapper'>
       <div className='playSquaresWrapper'>
@@ -239,7 +250,8 @@ const mapStateToProps = state => {
     score1: state.players[0].scorecard.total,
     score2: state.players[1].scorecard.total,
     players: state.players,
-    initialModal: state.initialModal
+    initialModal: state.initialModal,
+    gameOver: state.gameOver
   }
 }
 
@@ -249,7 +261,8 @@ const mapDispatchToProps = dispatch => {
     addScore: (score, die) => dispatch({type: 'ADD_SCORE', payload: {score, die}}),
     toggleDie: dieIndex => dispatch({type: 'TOGGLE_DIE', payload: {dieIndex}}),
     updateName: (name, index) => dispatch({type: 'UPDATE_NAME', payload: {name, index}}),
-    startGame: () => dispatch({type: 'START_GAME'})
+    startGame: () => dispatch({type: 'START_GAME'}),
+    gameOverModal: () => dispatch({type: 'GAME_OVER'})
   }
 }
 

@@ -60,25 +60,7 @@ const calculateScores = (state, action) => {
         }
 
         return currentDie
-
-        // return activeDie === i ? ({
-        //   isReadyToRoll: !currentDie.isReadyToRoll, 
-        //   value: currentDie.value,
-        //   shouldBeAnimated: true
-        // }) 
-        //   : currentDie
       })
-
-      // const newDiceArray = diceArray.map((currentDie, i) => {
-      //   return activeDie === i ? ({
-      //     isReadyToRoll: !currentDie.isReadyToRoll, 
-      //     value: currentDie.value,
-      //     shouldBeAnimated: true
-      //   }) 
-      //     : currentDie
-      // })
-
-      console.log(newDiceArray)
 
       newState.diceBoard.dice = newDiceArray
       return newState
@@ -88,12 +70,6 @@ const calculateScores = (state, action) => {
       let dice
 
       // Handles dice if none are selected to roll
-
-      // const resetAnimationDice = diceArray.map(die => {
-      //   die.shouldBeAnimated = false
-      //   return die
-      // })
-
 
       if (diceArray.every(die => !die.isReadyToRoll)) {
         dice = diceArray.map(die => {
